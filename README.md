@@ -74,3 +74,5 @@
 - Gem chartkick(グラフ機能)
 - Stimulus(効果音やBGMなど)
 - PWA(アプリのネイティブ化によるUX向上)
+
+###
