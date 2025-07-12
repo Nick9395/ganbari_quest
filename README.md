@@ -80,4 +80,4 @@
 - Stimulus(効果音やBGMなど)
 - PWA(アプリのネイティブ化によるUX向上)
 
-[ER図はこちら](./memo/er_zu_1.png)
+[ER図はこちら](./memo/er_zu_01.png)
