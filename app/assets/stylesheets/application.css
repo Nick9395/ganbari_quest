@@ -13,3 +13,25 @@
  *= require_tree .
  *= require_self
  */
+
+body {
+  background-color: #000; /* 背景を黒 */
+  color: #fff; /* 文字を白 */
+}
+
+.responsive-image {
+  width: 60%;
+  max-width: 800px; /* 最大幅を800pxに制限 */
+  height: 60%;
+  display: block;
+  margin: 0 auto;
+}
+
+.menu-box {
+  border: 2px solid white; /* 白い線で囲う */
+  padding: 20px; /* 内側の余白 */
+  margin: 20px auto; /* 上下の余白と中央揃え */
+  width: fit-content; /* コンテンツに合わせた幅 */
+  color: white; /* 文字の色を白 */
+  /* text-align: center; 四角の線の中のテキストを中央揃え */
+}
