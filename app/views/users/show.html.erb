@@ -1,0 +1,8 @@
+<div class='center-container'>
+  <h1> ゆうしゃ<%= @user.name %>のとりで </h1>
+  <p>email:<%= @user.email %></p>
+
+  <%= form_with url: logout_path, method: :delete, local: true do %>
+    <%= submit_tag 'logout', class: 'custom-button-01' %>
+  <% end %>
+</div>

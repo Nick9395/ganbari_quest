@@ -1,0 +1,31 @@
+<div class="center-container">
+  <h1>アカウントを作る</h1>
+  <p>Find me in app/views/users/new.html.erb</p>
+  <%= form_with model: @user, local: true do |f| %>
+    <div class='form-group'>
+      <%= f.label :name, '名前' %>
+      <%= f.text_field :name  %>
+    </div>
+
+    <div class='form-group'>
+      <%= f.label :email %>
+      <%= f.email_field :email %>
+    </div>
+
+    <div class='form-group'>
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+    </div>
+
+    <div class='form-group'>
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation %>
+    </div>
+    <br>
+    <br>
+    <%= f.submit 'submit', class: 'custom-button-01' %>
+    <br>
+    <br>
+    <%= link_to 'back', root_path, class: 'rpg-link' %>
+  <% end %>
+</div>

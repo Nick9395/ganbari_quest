@@ -2,7 +2,10 @@
 <%# <p>Find me in app/views/home/index.html.erb</p> %>
 <%= image_tag 'title_01.png', class: 'responsive-image' %>
 <div class='menu-box'>
-  <h3>ニューゲーム (アカウント作成)</h3>
-  <h3>ロードゲーム (ログインする)</h3>
-  <h3>チュートリアル (つかいかた)</h3>
+  <%= link_to 'new game(アカウントを作る)', new_user_path, class: 'rpg-link' %>
+  <br>
+  <br>
+  <%= link_to 'road game(ログインする)' ,login_path, class: 'rpg-link' %>
+
+  <h3>チュートリアル (つかいかた)※工事中</h3>
 </div>

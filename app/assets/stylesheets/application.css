@@ -19,6 +19,7 @@ body {
   color: #fff; /* 文字を白 */
 }
 
+/* タイトルロゴ用 */
 .responsive-image {
   width: 60%;
   max-width: 800px; /* 最大幅を800pxに制限 */
@@ -27,6 +28,7 @@ body {
   margin: 0 auto;
 }
 
+/* トップ画面のメニューの囲い線 */
 .menu-box {
   border: 2px solid white; /* 白い線で囲う */
   padding: 20px; /* 内側の余白 */
@@ -34,4 +36,72 @@ body {
   width: fit-content; /* コンテンツに合わせた幅 */
   color: white; /* 文字の色を白 */
   /* text-align: center; 四角の線の中のテキストを中央揃え */
+}
+
+/* ページ全体を中央にそろえるコンテナ */
+.center-container {
+  display: flex;
+  flex-direction: column;     /* 縦に並べる */
+  align-items: center;        /* 横方向の中央揃え */
+  justify-content: center;    /* 縦方向の中央揃え（必要なら） */
+  min-height: 20vh;          /* 最低高さ */
+  text-align: center;         /* テキストの中央揃え */
+}
+
+/* 入力フォームをそろえる */
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  width: 150px;        /* ラベルの幅を固定 */
+  font-weight: bold;
+}
+
+.form-group input {
+  min-width: 200px; /* 最小幅を設定（初期サイズ） */
+  width: fit-content; /* 入力値に合わせて幅を変動 */
+  padding: 6px;
+  font-size: 14px;
+  max-width: 100%; /* 画面の幅を超えないよう制限 */
+}
+
+/* ログアウトボタン用のレイアウト */
+.custom-button-01{
+  display: inline-block;
+  color: rgb(255, 255, 255); /* 文字の色 */
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid white; /* 枠線 */
+  border-radius: 8px;
+  background-color: #000; /* ボタンの塗りつぶし */
+}
+
+.custom-button-01:hover{
+  background-color: #fff700;
+  color: rgb(0, 0, 0);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #fbf380;
+}
+
+/* トップ画面のメニューアイコンのレイアウト */
+.rpg-link {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.rpg-link:hover {
+  color: #fff700; /* ゴールド風 */
+  transform: scale(1.1); /* 少し拡大 */
+  text-shadow: 0 0 10px #fbf380; /* 輝き風の影 */
 }
