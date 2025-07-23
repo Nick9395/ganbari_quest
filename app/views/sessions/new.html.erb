@@ -1,0 +1,19 @@
+<div class='center-container'>
+  <h1>ログインする</h1>
+  <p>Find me in app/views/session/new.html.erb</p>
+
+  <%= form_with url: login_path, method: :post, local: true do |f| %>
+    <dev class='form-group'>
+      <%= label_tag :email %>
+      <%= email_field_tag :email %>
+    </dev>
+    <dev class='form-group'>
+      <%= label_tag :password %>
+      <%= password_field_tag :password %>
+    </dev>
+    <br>
+    <%= submit_tag 'login', class: 'custom-button-01' %>
+    <br><br>
+    <%= link_to 'back', root_path, class: 'rpg-link' %>
+  <% end %>
+</div>
