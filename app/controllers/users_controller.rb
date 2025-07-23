@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_login, only: [:show] # showページはログイン必須
+  before_action :require_login, only: %i[ show ] # showページはログイン必須
   def new
     @user = User.new
   end
@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      redirect_to user_path(@user), notice: 'sign up'
+      redirect_to user_path(@user) # notice: 'sign up'
     else
       render :new, status: :unprocessable_entity
     end
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 
     # 他人のページにアクセスした場合の制限
     unless @user ==current_user
-      redirect_to root_path, alert: 'can not access'
+      redirect_to root_path # alert: 'can not access'
     end
   end
 
