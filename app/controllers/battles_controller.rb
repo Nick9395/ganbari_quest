@@ -56,9 +56,9 @@ class BattlesController < ApplicationController
 
     score.experience = session[:experience]
     if score.save
-      redirect_to user_path(@user), success: 'スコアを保存しました（上書き）'
+      redirect_to user_path(@user)
     else
-      redirect_to user_battles_path(@user), alert: 'スコアの保存に失敗しました'
+      redirect_to user_battles_path(@user)
     end
   end
 

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # ログイン ログアウト
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
-  delete "/logout", to: "sessions#destroy", as: 'logout'
+  delete "/logout", to: "sessions#destroy", as: "logout"
 
   # トップページ
   root "home#index"
@@ -16,9 +16,9 @@ Rails.application.routes.draw do
   resources :users, only: %i[new create show index] do
     resources :battles,  only: %i[index] do
       collection do
-        post 'increase' # /users/id/battles/increase
-        post 'decrease'
-        post 'save_score'
+        post "increase" # /users/id/battles/increase
+        post "decrease"
+        post "save_score"
       end
     end
   end

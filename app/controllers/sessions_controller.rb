@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       flash[:success] = "login_success" # 成功時フラッシュの内容をトリガーに成功音が発動
       redirect_to user_path(user) # notice: 'login'
     else
-      flash.now[:danger] = 'not login ログインできませんでした'
+      flash.now[:danger] = "not login ログインできませんでした"
       render :new, status: :unprocessable_entity
     end
   end
