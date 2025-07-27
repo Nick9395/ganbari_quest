@@ -4,5 +4,17 @@
 
 import { application } from "./application"
 
+import DelayedSubmitController from "./delayed_submit_controller"
+application.register("delayed-submit", DelayedSubmitController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import SoundChangeController from "./sound_change_controller"
+application.register("sound-change", SoundChangeController)
+
+import SoundLinkController from "./sound_link_controller"
+application.register("sound-link", SoundLinkController)
+
+import SubmitSuccessController from "./submit_success_controller"
+application.register("submit-success", SubmitSuccessController)

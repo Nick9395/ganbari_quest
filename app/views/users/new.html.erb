@@ -1,6 +1,10 @@
+<!-- app/views/users/new.html.erb -->
 <div class="center-container">
+  <% if flash[:alert] %>
+    <div class="flash-danger"><%= flash[:danger] %></div>
+  <% end %>
   <h1>アカウントを作る</h1>
-  <p>Find me in app/views/users/new.html.erb</p>
+  <br>
   <%= form_with model: @user, local: true do |f| %>
     <div class='form-group'>
       <%= f.label :name, '名前' %>
@@ -21,11 +25,20 @@
       <%= f.label :password_confirmation %>
       <%= f.password_field :password_confirmation %>
     </div>
+
+    <%= link_to 'すでにアカウントをお持ちの方はこちら', login_path, class: 'link-page' %>
+    <br><br>
+
+    <%= submit_tag '送信',
+      class: 'custom-button-01',
+      data: {
+        controller: 'delayed-submit',
+        action: 'click->delayed-submit#handle',
+        delayed_submit_delay_value: 1700
+      } %>
     <br>
     <br>
-    <%= f.submit 'submit', class: 'custom-button-01' %>
-    <br>
-    <br>
+
     <%= link_to 'back', root_path, class: 'rpg-link' %>
   <% end %>
 </div>

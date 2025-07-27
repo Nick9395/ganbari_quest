@@ -28,6 +28,13 @@ body {
   margin: 0 auto;
 }
 
+/* アバター用 */
+.avatar-image {
+max-width: 300px;
+min-width: 100px;
+
+}
+
 /* トップ画面のメニューの囲い線 */
 .menu-box {
   border: 2px solid white; /* 白い線で囲う */
@@ -66,6 +73,13 @@ body {
   padding: 6px;
   font-size: 14px;
   max-width: 100%; /* 画面の幅を超えないよう制限 */
+  background-color: black;       /* 内側の背景を黒に */
+  color: white;                  /* 入力文字を白に */
+  border: 2px solid white;       /* 外枠を白に */
+  padding: 8px;
+  outline: none;                 /* フォーカス時の枠線を消す */
+  font-size: 16px;
+  box-sizing: border-box;        /* パディング込みでサイズ調整 */
 }
 
 /* ログアウトボタン用のレイアウト */
@@ -103,5 +117,105 @@ body {
 .rpg-link:hover {
   color: #fff700; /* ゴールド風 */
   transform: scale(1.1); /* 少し拡大 */
-  text-shadow: 0 0 10px #fbf380; /* 輝き風の影 */
+  text-shadow: 0 0 20px #fbf380; /* 輝き風の影 */
+}
+
+/* アカウント作成画面等のlink_toのレイアウト */
+.link-page {
+  font-size: 18px; /* 文字サイズ */
+  color: #00ffaa; /* 文字の色 */
+  font-family: "MS Gothic", "Osaka", "Yu Gothic", "Meiryo", sans-serif; /* 文字の書体 */
+  margin-top: 100px;   /* 上に10pxの余白 */
+  margin-bottom: 100px; /* 下に10pxの余白 */
+  text-decoration: none; /* アンダーラインをキャンセルする */
+}
+
+.link-page:hover {
+  color: #fff700; /* ゴールド風 */
+  transform: scale(1.1); /* 少し拡大 */
+  text-shadow: 0 0 20px #fbf380; /* 輝き風の影 */
+}
+
+/* トップ画面のlink_toの効果設定 */
+a.disabled {
+  pointer-events: none;
+  opacity: 0.6; /* 遷移実行中に文字を薄くする */
+  cursor: not-allowed;
+}
+
+/* === 上部フラッシュメッセージ === */
+.flash-top {
+  position: fixed;
+  /* top: 100px; 上部フラッシュメッセージを下へ調整する */
+  width: 100%;
+  z-index: 1000;
+  text-align: center;
+}
+
+.flash {
+  padding: 12px;
+  margin: 10px auto;
+  border-radius: 6px;
+  width: fit-content;
+  display: inline-block;
+  font-weight: bold;
+  text-align: center;
+}
+
+.flash.success {
+  background-color: #000000;
+  color: #00ff00;
+  /* border: 2px solid #00ff00; */
+}
+
+.flash.danger {
+  background-color: #000000;
+  color: #ff0000;
+  /* border: 2px solid #ff5050; */
+}
+
+/* === RPG風メッセージウィンドウ === */
+.rpg-message-window {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #111;
+  border: 2px solid #fff;
+  padding: 20px;
+  box-shadow: 0 -4px 10px rgba(255, 255, 255, 0.2);
+  font-family: "MS Gothic", "Osaka", "Yu Gothic", "Meiryo", sans-serif;
+  z-index: 900;
+}
+
+.rpg-message {
+  color: #ffffff;
+  font-size: 20px;
+  text-align: center;
+}
+
+.flash {
+  transition: all 0.4s ease;
+  opacity: 1;
+}
+
+.field_with_errors {
+  display: contents; /* 親要素の構造を壊さずにエラー表示　アカウント作成画面のレイアウト崩れ対策 */
+}
+
+/* アカウント作成とログインのsubmitボタンの効果設定 */
+button.disabled,
+input[type="submit"].disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  background-color: black !important; /* 背景を強制的に黒くする */
+  color: white !important; /* 文字を白くする */
+  -webkit-box-shadow: 0 0 0 1000px black inset !important; /* ブラウザの塗りつぶしを黒くする */
+  -webkit-text-fill-color: white !important; /* 自動補完後の文字の色を白くする */
+  transition: background-color 5000s ease-in-out 0s; /* 一部ブラウザの再描写バグ対策 */
 }

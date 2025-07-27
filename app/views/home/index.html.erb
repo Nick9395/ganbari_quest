@@ -1,11 +1,27 @@
-<%# Home#index %>
-<%# <p>Find me in app/views/home/index.html.erb</p> %>
 <%= image_tag 'title_01.png', class: 'responsive-image' %>
+
 <div class='menu-box'>
-  <%= link_to 'new game(アカウントを作る)', new_user_path, class: 'rpg-link' %>
-  <br>
-  <br>
-  <%= link_to 'road game(ログインする)' ,login_path, class: 'rpg-link' %>
+  <%= link_to 'new game(アカウントを作る)',
+              '#',
+              data: {
+                controller: 'sound-link',
+                action: 'click->sound-link#playAndRedirect',
+                sound_link_url_value: new_user_path,
+                sound_link_delay_value: 1700
+              },
+              class: 'rpg-link' %>
+
+  <br><br>
+
+  <%= link_to 'road game(ログインする)',
+              '#',
+              data: {
+                controller: 'sound-link',
+                action: 'click->sound-link#playAndRedirect',
+                sound_link_url_value: login_path,
+                sound_link_delay_value: 1700
+              },
+              class: 'rpg-link' %>
 
   <h3>チュートリアル (つかいかた)※工事中</h3>
 </div>

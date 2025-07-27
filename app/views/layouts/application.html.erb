@@ -18,6 +18,24 @@
   </head>
 
   <body>
+
     <%= yield %>
+    <!-- 上部通知用フラッシュメッセージ -->
+    <div class="flash-top">
+      <% if flash[:success] %>
+        <div class='flash success'><%= flash[:notice] %></div>
+      <% end %>
+      <% if flash[:danger] %>
+        <div class='flash danger'><%= flash[:danger] %></div>
+      <% end %>
+    </div>
+
+    <!-- 下部RPG風メッセージウィンドウ -->
+    <% if flash[:rpg].present? %>
+      <div class="rpg-message-window">
+        <p class="rpg-message"><%= flash[:rpg] %></p>
+      </div>
+    <% end %>
+
   </body>
 </html>

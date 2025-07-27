@@ -1,0 +1,27 @@
+<h1>Battles#index</h1>
+<p>Find me in app/views/battles/index.html.erb</p>
+
+<%# フラッシュメッセージの表示とStimulusコントローラの呼び出し %>
+<% if flash[:rpg].present? %>
+  <div 
+    data-controller="sound-change"
+    <%= "data-sound-change-levelup-value='true'" if flash[:levelup] %>
+    <%= "data-sound-change-leveldown-value='true'" if flash[:leveldown] %>
+    class="flash-message"
+  >
+  </div>
+<% end %>
+
+<div class='menu-box'>
+  <p>勇者: <%= @user.name %></p>
+  <p>レベル: <%= @level %></p>
+  <p>けいけんち: <%= @experience %></p>
+  <p>つぎのレベルまであと: </p>
+</div>
+
+<div class='menu-box'>
+  <%= link_to 'がんばった', increase_user_battles_path, method: :post %><br>
+  <%= link_to 'なまけた', decrease_user_battles_path, method: :post %><br>
+  <%= link_to 'セーブしてもどる', save_score_user_battles_path, method: :post %><br>
+  <%= link_to 'にげる', user_path(@user) %>
+</div>

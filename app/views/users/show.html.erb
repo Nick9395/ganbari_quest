@@ -1,8 +1,23 @@
+<!-- app/views/users/show.html.erb -->
 <div class='center-container'>
   <h1> ゆうしゃ<%= @user.name %>のとりで </h1>
-  <p>email:<%= @user.email %></p>
+  <%= image_tag 'avatar_sample_01.png', class: 'avatar-image' %>
+  <div class='menu-box'>
+    <p class='form-group'>しょうごう: ビギナー勇者</p>
+    <p class='form-group'>レベル: <%= @level %> Lv</p>
+    <p class='form-group'>けいけんち: <%= @experience %> Ex</p>
+    <p class='form-group'>つぎのレベルまであと xx Ex</p>
+  </div>
+
+  <%= link_to 'バトルかいし', user_battles_path(@user) %>
+  <br>
 
   <%= form_with url: logout_path, method: :delete, local: true do %>
     <%= submit_tag 'logout', class: 'custom-button-01' %>
   <% end %>
+</div>
+
+<!-- このページへ遷移後にflashを元に効果音を判定 -->
+<div data-controller="submit-success"
+     data-submit-success-status-value="<%= flash[:success] %>">
 </div>
