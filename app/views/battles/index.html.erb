@@ -1,27 +1,49 @@
-<h1>Battles#index</h1>
-<p>Find me in app/views/battles/index.html.erb</p>
-
-<%# フラッシュメッセージの表示とStimulusコントローラの呼び出し %>
+<!-- app/views/battles/index.html.erb -->
+<!-- フラッシュメッセージの表示とStimulusコントローラの呼び出し -->
 <% if flash[:rpg].present? %>
-  <div 
+  <div
     data-controller="sound-change"
     <%= "data-sound-change-levelup-value='true'" if flash[:levelup] %>
     <%= "data-sound-change-leveldown-value='true'" if flash[:leveldown] %>
     class="flash-message"
   >
   </div>
+
+
 <% end %>
 
-<div class='menu-box'>
-  <p>勇者: <%= @user.name %></p>
-  <p>レベル: <%= @level %></p>
-  <p>けいけんち: <%= @experience %></p>
-  <p>つぎのレベルまであと: </p>
+<div class='status-window'>
+  <p class='status-item'>勇者: <%= @user.name %></p>
+  <p class='status-item'>レベル: <%= @level %> LV</p>
+  <p class='status-item'>けいけんち: <%= @experience %> EX</p>
+  <p class='status-item'>つぎのレベルまであと: <%= @next_level_exp %> EX </p>
 </div>
 
-<div class='menu-box'>
-  <%= link_to 'がんばった', increase_user_battles_path, method: :post %><br>
-  <%= link_to 'なまけた', decrease_user_battles_path, method: :post %><br>
-  <%= link_to 'セーブしてもどる', save_score_user_battles_path, method: :post %><br>
-  <%= link_to 'にげる', user_path(@user) %>
+<div class="enemy-container">
+  <%= image_tag 'enemy_01.png', class: 'enemy-image' %>
+</div>
+
+
+<div class="battle-bottom-ui">
+  <!-- コマンドウインドウ -->
+  <div class='battle-window'>
+    <%= link_to 'がんばった', increase_user_battles_path(date: @selected_date), method: :post, class: 'battle-command' %>
+    <%= link_to 'なまけた', decrease_user_battles_path(date: @selected_date_), method: :post, class: 'battle-command' %>
+    <%= link_to 'セーブしてもどる', save_score_user_battles_path(date: @selected_date), method: :post, class: 'battle-command' %>
+    <%= link_to 'にげる', escape_user_battles_path(@user, date: @selected_date), class: 'battle-command' %>
+  </div>
+
+  <!-- メッセージウインドウ(フラッシュメッセージ) -->
+  <div class="battle-message-window">
+    <% if flash[:rpg].present? %>
+      <%= flash[:rpg].html_safe %>
+        <% if flash[:levelup] %>
+          <%= flash[:rpg2] %>
+        <% elsif flash[:leveldown] %>
+          <%= flash[:rpg3].html_safe %>
+        <% end %>
+    <% else %>
+      <span class="default-message">本日のかだいがあらわれた</span>
+    <% end %>
+  </div>
 </div>

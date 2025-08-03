@@ -1,0 +1,64 @@
+<!-- app/views/monthly_goals/new.html.erb -->
+<h1>目標と評価基準</h1>
+
+<!-- 月選択フォーム -->
+<%= form_with url: request.path, method: :get, local: true do %>
+  <div class="flex-form-row">
+    <!-- 年セレクタ -->
+    <div>
+      <%= label_tag :year, "年" %>
+      <%= select_tag :year,
+            options_for_select((2020..Date.today.year+3).to_a.reverse, @month.year),
+            class: "form-control" %>
+    </div>
+
+    <!-- 月セレクタ -->
+    <div>
+      <%= label_tag :month, "月" %>
+      <%= select_tag :month,
+            options_for_select((1..12).map { |m| [sprintf("%02d", m), m] }, @month.month),
+            class: "form-control" %>
+    </div>
+
+    <!-- 表示ボタン -->
+    <div>
+      <%= label_tag :dummy, "　" %> <!-- 高さ合わせ用の空ラベル -->
+      <%= submit_tag "表示", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+<!-- 入力フォーム -->
+<% if @monthly_goal.persisted? %>
+  <%= form_with model: [@user, @monthly_goal], url: user_monthly_goal_path(@user, @monthly_goal, month: @month), method: :patch, local: true do |f| %>
+    <%= hidden_field_tag :month, @month.to_s %>
+
+    <div>
+      <%= f.label :target_text, "目標" %><br>
+      <%= f.text_area :target_text %>
+    </div>
+
+    <div>
+      <%= f.label :evaluation_text, "評価基準" %><br>
+      <%= f.text_area :evaluation_text %>
+    </div>
+    <br>
+    <%= f.submit "セーブしてもどる", class:'custom-button-01' %>
+  <% end %>
+<% else %>
+  <%= form_with model: [@user, @monthly_goal], url: user_monthly_goals_path(@user, month: @month), method: :post, local: true do |f| %>
+    <%= hidden_field_tag :month, @month.to_s %>
+
+    <div>
+      <%= f.label :target_text, "目標" %><br>
+      <%= f.text_area :target_text %>
+    </div>
+
+    <div>
+      <%= f.label :evaluation_text, "評価基準" %><br>
+      <%= f.text_area :evaluation_text %>
+    </div>
+    <br>
+    <%= f.submit "セーブしてもどる", class:'custom-button-01' %>
+  <% end %>
+<% end %>

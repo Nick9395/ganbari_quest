@@ -1,3 +1,4 @@
+<!-- app/views/layouts/application.html.erb -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -29,13 +30,6 @@
         <div class='flash danger'><%= flash[:danger] %></div>
       <% end %>
     </div>
-
-    <!-- 下部RPG風メッセージウィンドウ -->
-    <% if flash[:rpg].present? %>
-      <div class="rpg-message-window">
-        <p class="rpg-message"><%= flash[:rpg] %></p>
-      </div>
-    <% end %>
 
   </body>
 </html>

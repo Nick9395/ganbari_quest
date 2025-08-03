@@ -26,16 +26,20 @@ class UsersController < ApplicationController
   # ユーザー情報表示
   def show
     @user = User.find(params[:id])
+    @current_month = Date.today.beginning_of_month
 
-    @experience = @user.scores.sum(:experience)
-    @experience = 1 if @experience < 1 # マイナスやゼロにならないために
+    # 「にげる」以外でuser/showに戻ってきた場合のセッションをリセット
+    session[:exp_diff] ||=0
 
+    # 経験値やレベルのトータル？
+    @experience = [ @user.scores.sum(:experience), 0 ].max
     @level = (@experience / 8) + 1
-    @next_level_exp = ((@level * 8) + 1) - @experience
+    @next_level_exp = (@level * 8) - @experience
 
-    # 他人のページにアクセスした場合の制限
-    unless @user ==current_user
-      redirect_to root_path # alert: 'can not access'
+    # 他人のページにアクセスした場合の制限 ※修正中
+    unless @user == current_user
+      flash[:danger] = "[警告] 不正なアクセスです"
+      redirect_to root_path and return
     end
   end
 

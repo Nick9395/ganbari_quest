@@ -12,12 +12,119 @@
  *
  *= require_tree .
  *= require_self
+ *= require simple_calendar
  */
 
 body {
   background-color: #000; /* 背景を黒 */
   color: #fff; /* 文字を白 */
 }
+
+/* シンプルカレンダーのレイアウト */
+.simple-calendar nav a {
+  color: #ffffff; /* 好きな色に変更可能 */
+  text-decoration: none; /* 下線を消したい場合 */
+}
+
+.simple-calendar nav a:hover {
+  color: #fff700;
+  opacity: 0.7;
+}
+
+.simple-calendar table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.simple-calendar td {
+  width: 40px;
+  height: 40px;
+  padding: 2px;
+}
+
+.simple-calendar td a {
+  display: block;
+  width: 40px;
+  height: 60px;
+  color: white;
+  text-align: center;
+  padding: 2px;
+}
+
+.simple-calendar td a:hover {
+  opacity: 0.5;
+}
+
+.simple-calendar .current-month {
+  background-color: #000000;
+}
+
+.simple-calendar .current-month a {
+  color: white;
+  text-decoration: none;
+}
+
+.simple-calendar .wday-0,
+.simple-calendar .wday-6 {
+  color: #ffffff;
+}
+
+.simple-calendar .wday-0 a {
+  color: #ff0000;
+}
+.simple-calendar .wday-6 a {
+  color: #3300ff;
+}
+
+.simple-calendar .next-month {
+  background-color: #2e2e2e !important;
+}
+
+.simple-calendar .next-month a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.simple-calendar .today {
+  background-color: #00ffaa !important;
+}
+
+.simple-calendar .today a {
+  background-color: transparent;
+  color: #000000;
+  font-weight: bold;
+}
+
+.simple-calendar .prev-month {
+  background-color: #2e2e2e !important;
+}
+
+.simple-calendar .prev-month a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.simple-calendar th.wday-0 {
+  color: #ff0000; /* 日曜のヘッダーを赤 */
+}
+
+.simple-calendar th.wday-6 {
+  color: #3300ff; /* 土曜のヘッダーを青 */
+}
+
+/* 月入力用カレンダーのレイアウト */
+/* フォームの年・月・表示を横一列に並べるためのクラス */
+.flex-form-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end; /* ラベルとボタンの高さをそろえる */
+}
+
+.flex-form-row div {
+  display: flex;
+  flex-direction: column;
+}
+
 
 /* タイトルロゴ用 */
 .responsive-image {
@@ -32,7 +139,23 @@ body {
 .avatar-image {
 max-width: 300px;
 min-width: 100px;
+}
 
+/* 敵キャラを中央に表示するエリア */
+.enemy-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 中央揃え */
+  z-index: 10; /* ウィンドウの下にならないように調整 */
+  pointer-events: none; /* クリックなどを透過させたい場合 */
+}
+
+/* 敵キャラ画像のスタイル */
+.enemy-image {
+  max-height: 200px;
+  height: auto;
+  width: auto;
 }
 
 /* トップ画面のメニューの囲い線 */
@@ -42,6 +165,7 @@ min-width: 100px;
   margin: 20px auto; /* 上下の余白と中央揃え */
   width: fit-content; /* コンテンツに合わせた幅 */
   color: white; /* 文字の色を白 */
+  box-shadow: 0 0 10px #fff inset;
   /* text-align: center; 四角の線の中のテキストを中央揃え */
 }
 
@@ -70,8 +194,6 @@ min-width: 100px;
 .form-group input {
   min-width: 200px; /* 最小幅を設定（初期サイズ） */
   width: fit-content; /* 入力値に合わせて幅を変動 */
-  padding: 6px;
-  font-size: 14px;
   max-width: 100%; /* 画面の幅を超えないよう制限 */
   background-color: black;       /* 内側の背景を黒に */
   color: white;                  /* 入力文字を白に */
@@ -82,7 +204,120 @@ min-width: 100px;
   box-sizing: border-box;        /* パディング込みでサイズ調整 */
 }
 
-/* ログアウトボタン用のレイアウト */
+/* バトル画面左上のステータスレイアウト */
+.status-window {
+  position: fixed;
+  top: 40px; /* 上の余白 */
+  left: 40px; /* 左の余白 */
+  border: 2px solid white;
+  background-color: black;
+  color: white;
+  padding: 16px 20px;
+  width: 240px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;      /* 縦の中央寄せ */
+  box-sizing: border-box;
+  box-shadow: 0 0 10px #fff inset;
+  font-family: "MS Gothic", "Osaka", "Yu Gothic", "Meiryo", sans-serif;
+  z-index: 1000;
+}
+
+/* モバイル向けレイアウト調整 */
+@media (max-width: 600px) {
+  .status-window {
+    width: 90vw;
+    font-size: 14px;
+    top: 10px;
+    left: 5vw;
+  }
+}
+
+/* 各ステータス項目 */
+.status-item {
+  text-align: left;         /* 左寄せ */
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+/* ▼ ウィンドウ2つを並べるための親要素 */
+.battle-bottom-ui {
+  position: absolute;    /* 画面内の好きな場所に固定する */
+  bottom: 20px;          /* 画面の下から20pxの位置に配置 */
+  left: 20px;            /* 画面の左から20pxの位置に配置 */
+  right: 20px;           /* 画面の右端からも20pxあけて、幅を自動調整 */
+  display: flex;         /* 子要素（ウィンドウ）を横並びにする */
+  gap: 4px;              /* ウィンドウ同士の間隔を4pxに固定 */
+  align-items: stretch;  /* 高さを揃える（短い方を長い方に合わせる） */
+}
+
+/* ▼ 左側のコマンドウィンドウのデザイン */
+.battle-window {
+  width: 240px;               /* 横幅を240pxに固定 */
+  min-height: 160px;          /* 高さの最小値。足りなければ自動で伸びる */
+  padding: 16px;              /* 中の文字との余白 */
+  background-color: black;    /* 背景を黒に */
+  border: 2px solid white;    /* 白い2pxの枠線 */
+  color: white;               /* 文字色は白 */
+  font-family: "MS Gothic", "Osaka", "Yu Gothic", "Meiryo", sans-serif;  /* レトロゲーム風フォント（Google Fonts推奨） */
+  font-size: 16px;
+  line-height: 1.5;
+  box-shadow: 0 0 10px #fff inset;  /* 内側にうっすら白い影でレトロ感 */
+}
+
+/* ▼ メッセージウィンドウのデザイン（右側） */
+.battle-message-window {
+  flex: 1 1 auto;             /* 画面の残りスペースを使って柔軟に広がる */
+  max-width: 600px;           /* 最大でも600pxまでしか広がらない */
+  min-width: 240px;           /* 最小でも240pxは確保（崩れ防止） */
+  min-height: 160px;          /* 高さはコマンドウィンドウと同じ */
+
+  /* メッセージの位置を調整（上 右 下 左） */
+  padding: 24px 16px 16px 24px;
+  background-color: black;
+  border: 2px solid white;
+  color: white;
+
+  font-family: "MS Gothic", "Osaka", "Yu Gothic", "Meiryo", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+
+  box-shadow: 0 0 10px #fff inset;
+
+  word-wrap: break-word;      /* 長い単語は途中で折り返す */
+  overflow-wrap: break-word;  /* 同じく長い単語の折り返し（保険） */
+}
+
+/* ▼ スマホなど画面が狭いときの対応（縦並びにする） */
+@media (max-width: 600px) {
+  .battle-bottom-ui {
+    flex-direction: column;   /* 横並びではなく縦に並べる */
+  }
+
+  .battle-window,
+  .battle-message-window {
+    width: 100%;              /* 幅を画面いっぱいに広げる */
+    max-width: 100%;          /* 最大幅も100%に */
+  }
+}
+
+.battle-command {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 8px 12px;
+  display: block;
+}
+
+.battle-command:hover {
+  color: #fff700;
+  /* transform: scale(1.1); 少し拡大 */
+  text-shadow: 0 0 20px #fbf380; /* 輝き風の影 */
+}
+
+
+
+/* ログアウトボタンが光るレイアウト */
 .custom-button-01{
   display: inline-block;
   color: rgb(255, 255, 255); /* 文字の色 */
@@ -104,7 +339,7 @@ min-width: 100px;
   box-shadow: 0 0 20px #fbf380;
 }
 
-/* トップ画面のメニューアイコンのレイアウト */
+/* トップ画面のメニューアイコンが光るレイアウト */
 .rpg-link {
   color: white;
   text-decoration: none;
@@ -136,7 +371,7 @@ min-width: 100px;
   text-shadow: 0 0 20px #fbf380; /* 輝き風の影 */
 }
 
-/* トップ画面のlink_toの効果設定 */
+/* トップ画面のlink_toの効果設定 jsとセットで効果を発揮 */
 a.disabled {
   pointer-events: none;
   opacity: 0.6; /* 遷移実行中に文字を薄くする */
@@ -160,6 +395,8 @@ a.disabled {
   display: inline-block;
   font-weight: bold;
   text-align: center;
+  transition: all 0.4s ease;
+  opacity: 1;
 }
 
 .flash.success {
@@ -191,11 +428,6 @@ a.disabled {
   color: #ffffff;
   font-size: 20px;
   text-align: center;
-}
-
-.flash {
-  transition: all 0.4s ease;
-  opacity: 1;
 }
 
 .field_with_errors {

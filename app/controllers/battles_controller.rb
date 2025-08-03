@@ -3,75 +3,146 @@ class BattlesController < ApplicationController
   before_action :initialize_session
 
   def index
-    @battles = @user.battles
-    @experience = session[:experience]
-    @level = session[:level]
+    # 選択された日付を受け取る（なければ今日）
+    # @selected_date = params[:date].present? ? Date.parse(params[:date]) : Date.current
+    begin
+      @selected_date = params[:date].present? ? Date.parse(params[:date]) : Date.current
+    rescue ArgumentError
+      @selected_date = Date.current
+    end
+
+    # セッションに日付を記録
+    session[:last_selected_date] = @selected_date.to_s
+
+    # dbに保管されている経験値の合計
+    @base_experience = @user.scores.sum(:experience)
+
+    # セッションの増減値
+    session[:exp_diff] ||= 0
+
+    # 表示用の最終経験値（DB+セッション値）
+    @experience = @base_experience + session[:exp_diff]
+    @experience = 0 if @experience < 0 # マイナスにならないために
+
+    @level = (@experience / 8) + 1
+    @next_level_exp = (@level * 8) - @experience
   end
 
   def increase
-    session[:experience] ||= 1
-    session[:level] ||= 1
+    # セッション初期化
+    session[:exp_diff] ||= 0
 
-    previous_exp = session[:experience]
-    session[:experience] += 1
-    session[:experience] = 7984 if session[:experience] > 7984
+    # DBの合計経験値（レベル計算の基準）
+    base_exp = @user.scores.sum(:experience)
+    previous_total_exp = base_exp + session[:exp_diff]
 
-    new_level = (session[:experience] / 8) + 1
-    previous_level = (previous_exp / 8) + 1
+    # 経験値を +1
+    session[:exp_diff] += 1
+    new_total_exp = base_exp + session[:exp_diff]
+
+    # レベル判定
+    previous_level = (previous_total_exp / 8) + 1
+    new_level = (new_total_exp / 8) + 1
+
+    flash[:rpg] = [
+      "勇者のこうげき！<br>本日のかだいをやっつけた<br>勇者は1のけいけんちを得た<br>",
+      "かいしんのいちげき！<br>本日のかだいをやっつけた<br>勇者は1のけいけんちを得た<br>",
+      "勇者はメラゾーマをとなえた<br>本日のかだいをやっつけた<br>勇者は1のけいけんちを得た<br>",
+      "勇者の超究武神覇斬！！<br>本日のかだいをやっつけた<br>勇者は1のけいけんちを得た<br>",
+      "勇者のエース・オブ・ザ・ブリッツ！！<br>本日のかだいをやっつけた<br>勇者は1のけいけんちを得た<br>",
+      "勇者のつるのむち<br>本日のかだいをやっつけた<br>勇者は1のけいけんちを得た<br>"
+  ].sample
+    # session[:experience] = 7984 if session[:experience] > 7984
 
     if new_level > previous_level
-      flash[:rpg] = "本日の課題をやっつけた。勇者はレベルが上がった！"
+      flash[:rpg2] = "勇者はレベルが上がった！"
       flash[:levelup] = true
     end
 
-    session[:level] = new_level
-    redirect_to user_battles_path(@user)
+    redirect_to user_battles_path(@user, date: params[:date] || session[:last_selected_date])
   end
 
   def decrease
-    session[:experience] ||= 1
-    session[:level] ||= 1
+    # セッション初期化
+    session[:exp_diff] ||= 0
 
-    previous_exp = session[:experience]
-    session[:experience] -= 1
-    session[:experience] = 1 if session[:experience] < 1
+    # 表示のためにdbから現在の合計経験値を取得
+    base_exp = @user.scores.sum(:experience)
+    previous_total_exp = base_exp + session[:exp_diff]
 
-    new_level = (session[:experience] / 8) + 1
-    previous_level = (previous_exp / 8) + 1
+    session[:exp_diff] -= 1
 
+    # 下限を 0 に保つ
+    if (base_exp + session[:exp_diff]) < 0
+      session[:exp_diff] = -base_exp
+    end
+
+    new_total_exp = base_exp + session[:exp_diff]
+
+    previous_level = (previous_total_exp / 8) + 1
+    new_level = (new_total_exp / 8) + 1
+
+    flash[:rpg] = "勇者はなまけた<br>けいけんちが1下がった<br>"
     if new_level < previous_level
-      flash[:rpg] = "勇者はなまけた。レベルが下がった(笑)"
+
+    flash[:rpg3] = [
+      "勇者はレベルが下がった(笑)<br>ドンマイ！",
+      "勇者はレベルが下がった・・・<br>そんな日もあるさ！",
+      "勇者はレベルが下がった<br>次がんばろう！",
+      "勇者はレベルが下がった<br>ここからばんかいだ！"
+      ].sample
       flash[:leveldown] = true
     end
 
-    session[:level] = new_level
-    redirect_to user_battles_path(@user)
+    redirect_to user_battles_path(@user, date: params[:date] || session[:last_selected_date])
   end
 
   def save_score
-    score = Score.find_or_initialize_by(
-      user_id: @user.id,
-      recorded_on: Date.current
-    )
+    recorded_on = params[:date].presence || session[:last_selected_date] || Date.current
+    recorded_on = Date.parse(recorded_on.to_s)
 
-    score.experience = session[:experience]
+    exp_diff = session[:exp_diff] || 0 # セッションに保存された増減値を使う
+    return redirect_to user_path(@user) if exp_diff == 0
+
+    base_exp = @user.scores.sum(:experience)
+    exp_diff = -base_exp if base_exp + exp_diff < 0 # 合計値がマイナスにならないよう調整
+
+    score = Score.find_or_initialize_by(user_id: @user.id, recorded_on: recorded_on)
+    score.experience ||= 0
+    score.experience += exp_diff
+
     if score.save
+      # セッションをリセット（必要に応じて）
+      session[:exp_diff] = 0
+      session[:last_selected_date] = nil
       redirect_to user_path(@user)
     else
-      redirect_to user_battles_path(@user)
+      redirect_to user_battles_path(@user, date: recorded_on)
     end
+  end
+
+  def escape
+    # セッションの経験値差分をリセット（バトル画面からにげる）
+    session[:exp_diff] = 0
+    redirect_to user_path(@user, date: params[:date] || session[:last_selected_date])
   end
 
   private
 
   def initialize_session
-    session[:experience] ||= 1
-    session[:level] ||= 1
+    session[:experience] ||= 0
   end
 
   def set_user
+    unless current_user
+      flash[:danger] = "[警告] 不正なアクセスです"
+      redirect_to root_path
+      return
+    end
+
     if params[:user_id].to_i != current_user.id
-      redirect_to root_path, danger: "不正なアクセスです"
+      flash[:danger] = "[警告] 不正なアクセスです"
+      redirect_to root_path
     else
       @user = current_user
     end
