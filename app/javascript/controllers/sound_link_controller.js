@@ -25,7 +25,8 @@ export default class extends Controller {
 
     console.log("🎵 音を再生して遷移準備中...")
 
-    const audio = new Audio("/assets/start.mp3")
+    const audio = new Audio("/start.mp3");
+
     audio.play().catch(error => console.error("音声再生エラー:", error))
 
     await new Promise(resolve => setTimeout(resolve, this.delayValue))

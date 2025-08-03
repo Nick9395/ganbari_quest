@@ -8,7 +8,7 @@ export default class extends Controller {
 
   connect() {
     if (this.statusValue === "login_success") {
-      const audio = new Audio("/assets/success.mp3") // ← publicに置いた音声ファイル
+      const audio = new Audio("/success.mp3") // ← publicに置いた音声ファイル
       audio.play().catch(err => console.error("成功音の再生エラー", err))
     }
   }

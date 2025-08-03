@@ -10,11 +10,11 @@ export default class extends Controller {
 
   connect() {
     if (this.levelupValue) {
-      this.play("/assets/levelup.mp3")
+      this.play("/levelup.mp3")
     }
 
     if (this.leveldownValue) {
-      this.play("/assets/leveldown.mp3")
+      this.play("/leveldown.mp3")
     }
   }
 
