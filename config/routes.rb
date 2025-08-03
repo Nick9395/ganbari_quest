@@ -19,7 +19,10 @@ Rails.application.routes.draw do
         post "increase" # /users/id/battles/increase
         post "decrease"
         post "save_score"
+        get :escape
       end
     end
+
+    resources :monthly_goals, only: %i[new create edit update]
   end
 end

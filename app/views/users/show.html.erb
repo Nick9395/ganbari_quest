@@ -1,20 +1,41 @@
 <!-- app/views/users/show.html.erb -->
 <div class='center-container'>
   <h1> ゆうしゃ<%= @user.name %>のとりで </h1>
+
   <%= image_tag 'avatar_sample_01.png', class: 'avatar-image' %>
   <div class='menu-box'>
     <p class='form-group'>しょうごう: ビギナー勇者</p>
-    <p class='form-group'>レベル: <%= @level %> Lv</p>
-    <p class='form-group'>けいけんち: <%= @experience %> Ex</p>
-    <p class='form-group'>つぎのレベルまであと xx Ex</p>
+    <p class='form-group'>レベル: <%= @level %> LV</p>
+    <p class='form-group'>けいけんち: <%= @experience %> EX</p>
+    <p class='form-group'>つぎのレベルまであと <%= @next_level_exp %> EX</p>
   </div>
 
-  <%= link_to 'バトルかいし', user_battles_path(@user) %>
   <br>
 
-  <%= form_with url: logout_path, method: :delete, local: true do %>
-    <%= submit_tag 'logout', class: 'custom-button-01' %>
+  <!-- カレンダー -->
+  <%= month_calendar do |date| %>
+    <%= link_to date.day, user_battles_path(@user, date: date), class: 'calendar_link' %>
   <% end %>
+  <br>
+
+  <div class='menu-box'>
+    <% monthly_goal = @user.monthly_goals.find_by(month: @current_month) %>
+
+    <%= link_to "けいかくをせっていする", new_user_monthly_goal_path(@user, month: @current_month), class: 'rpg-link' %>
+    <br><br>
+
+    <% if monthly_goal && monthly_goal.persisted? %>
+      <%= link_to "ふりかえりをする", edit_user_monthly_goal_path(@user, monthly_goal, month: @current_month), class: 'rpg-link' %>
+    <% else %>
+      <%= link_to "ふりかえりをする", new_user_monthly_goal_path(@user, month: @current_month), class: 'rpg-link' %>
+    <% end %>
+    <br><br>
+
+    <!-- ログアウトボタン -->
+    <%= form_with url: logout_path, method: :delete, local: true do %>
+      <%= submit_tag 'logout', class: 'custom-button-01' %>
+    <% end %>
+  </div>
 </div>
 
 <!-- このページへ遷移後にflashを元に効果音を判定 -->

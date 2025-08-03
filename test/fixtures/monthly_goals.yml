@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  target_text: MyString
+  evaluation_text: MyString
+  review_text: MyString
+  month: 2025-08-03
+
+two:
+  user: two
+  target_text: MyString
+  evaluation_text: MyString
+  review_text: MyString
+  month: 2025-08-03
