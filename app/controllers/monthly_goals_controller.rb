@@ -26,8 +26,9 @@ class MonthlyGoalsController < ApplicationController
     end_date = @month.end_of_month
 
 
-    # スコアのある日を取得
-    raw_scores = Score.where(recorded_on: start_date..end_date)
+    # ユーザーごとに（@user）スコアのある日を取得
+    raw_scores = @user.scores
+                      .where(recorded_on: start_date..end_date)
                       .group(:recorded_on)
                       .sum(:experience)
 
