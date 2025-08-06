@@ -9,6 +9,7 @@ class MonthlyGoalsController < ApplicationController
   def create
     @monthly_goal = @user.monthly_goals.find_or_initialize_by(month: @month)
     @monthly_goal.assign_attributes(monthly_goal_params)
+    @monthly_goal.month = @month
 
     if @monthly_goal.save
       redirect_to user_path(@user)
@@ -19,11 +20,29 @@ class MonthlyGoalsController < ApplicationController
 
   def edit
     @monthly_goal = @user.monthly_goals.find_by(month: @month) || @user.monthly_goals.build(month: @month)
+
+    # 該当月の開始日と終了日を定義
+    start_date = @month.beginning_of_month
+    end_date = @month.end_of_month
+
+
+    # スコアのある日を取得
+    raw_scores = Score.where(recorded_on: start_date..end_date)
+                      .group(:recorded_on)
+                      .sum(:experience)
+
+    # 1日〜末日までの全日を0で初期化
+    @experience_data = (start_date..end_date).map do |date|
+      [ date.day.to_s, raw_scores[date] || 0 ]
+    end
   end
 
   def update
     @monthly_goal = @user.monthly_goals.find(params[:id])
-    if @monthly_goal.update(monthly_goal_params)
+    @monthly_goal.assign_attributes(monthly_goal_params)
+    @monthly_goal.month = @month
+
+    if @monthly_goal.save
       flash[:success] = "更新しました"
       redirect_to user_path(@user)
     else
@@ -38,8 +57,12 @@ class MonthlyGoalsController < ApplicationController
   end
 
   def set_month
-    if params[:year].present? && params[:month].present?
-      @month = Date.new(params[:year].to_i, params[:month].to_i, 1)
+    if params[:month].present? && params[:month] =~ /\A\d{4}-\d{2}-\d{2}\z/
+      # 形式が "YYYY-MM-DD" ならそのままパース
+      @month = Date.parse(params[:month]).beginning_of_month rescue Date.today.beginning_of_month
+    elsif params[:year].present? && params[:month].present?
+      # 年と月が個別に来た場合（セレクトタグ）
+      @month = Date.new(params[:year].to_i, params[:month].to_i, 1) rescue Date.today.beginning_of_month
     else
       @month = Date.today.beginning_of_month
     end

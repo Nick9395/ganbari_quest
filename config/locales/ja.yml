@@ -1,0 +1,62 @@
+ja:
+  home:
+    index:
+      new_game: "ニューゲーム(アカウント作成)"
+      road_game: "ロードゲーム(ログインする)"
+      tutorial: "チュートリアル(使い方)※工事中"
+
+  users:
+    new:
+      title: "ゆうしゃのしょうかん（アカウント作成）"
+      login_link: "すでにアカウントをお持ちの方はこちら"
+      back: "トップページへもどる"
+      submit: "ゆうしゃをしょうかんする"
+    show:
+      title: "ゆうしゃ %{name} のとりで"
+      title_label: "しょうごう"
+      beginner_hero: "ビギナーゆうしゃ"
+      battle_start: "↓がんばったカレンダー↓"
+      select_day: "※がんばった日をえらんでね"
+      planning: "けいかくする"
+      review: "ふりかえりをする"
+      account_edit: "アカウントへんこう(工事中)"
+      tutorial: "アプリのつかいかた(工事中)"
+      logout: "ぼうけんおしまい"
+
+  activerecord:
+    attributes:
+      user:
+        name: "なまえ"
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード(確認)"
+      session:
+
+  sessions:
+    new:
+      title: ぼうけんの旅へ(ログイン)
+      login: "ログインする"
+      no_account: "アカウントをお持ちでない方はこちら"
+      login: "とりでへ行く"
+      back: "トップページへもどる"
+
+  common:
+    level: "レベル"
+    experience: "けいけんち"
+    to_next_level: "つぎのレベルまであと"
+
+  helpers:
+    submit:
+     create: "送信"
+
+  simple_calendar:
+    previous: "＜＜"
+    today: "今月"
+    next: "＞＞"
+  date:
+    formats:
+      year_month: "%Y年%m月"
+
+  placeholders:
+    email: "メールアドレスを入力してください"
+    password: "パスワードを入力してください"

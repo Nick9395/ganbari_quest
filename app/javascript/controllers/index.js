@@ -4,8 +4,14 @@
 
 import { application } from "./application"
 
+import AutoResizeController from "./auto_resize_controller"
+application.register("auto-resize", AutoResizeController)
+
 import DelayedSubmitController from "./delayed_submit_controller"
 application.register("delayed-submit", DelayedSubmitController)
+
+import FlashController from "./flash_controller"
+application.register("flash", FlashController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)

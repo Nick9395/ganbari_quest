@@ -21,38 +21,66 @@ body {
 }
 
 /* シンプルカレンダーのレイアウト */
+/* 前月　当月　次月のボタン */
 .simple-calendar nav a {
-  color: #ffffff; /* 好きな色に変更可能 */
-  text-decoration: none; /* 下線を消したい場合 */
+  color: #ffffff; /* 文字の色 */
+  text-decoration: none; /* 下線を消す */
+  display: inline-block;
+  padding: 4px 8px;
+  margin: 0 4px;
+  background-color: #000000;
+  outline: 2px dotted #00f; /* 青色でドット */
+  outline-offset: 2px;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 10px;
 }
 
 .simple-calendar nav a:hover {
   color: #fff700;
-  opacity: 0.7;
+  text-shadow:
+    -1px -1px 0 #ffbb00,
+     1px -1px 0 #ffbb00,
+    -1px  1px 0 #ffbb00,
+     1px  1px 0 #ffbb00;
+  /* opacity: 0.7; */
 }
 
 .simple-calendar table {
-  width: 100%;
-  border-collapse: collapse;
+  width: 95%;
+  border-collapse: collapse; /* セルとセルの間の余白なし */
 }
-
+/* 曜日や日付が入る部分 */
 .simple-calendar td {
-  width: 40px;
-  height: 40px;
+  width: 40px !important;
+  height: 50px !important;
   padding: 2px;
 }
-
+/* 日付のリンク部分のレイアウト */
 .simple-calendar td a {
   display: block;
-  width: 40px;
-  height: 60px;
+  width: 100%;
+  height: 100%;
   color: white;
   text-align: center;
-  padding: 2px;
+  padding: 0;
+  margin: 0;
 }
 
 .simple-calendar td a:hover {
-  opacity: 0.5;
+  /* opacity: 0.5; テキストの色を薄くする */
+  color: #fff700;
+  font-weight: 800; /* 太文字にする */
+  transform: scale(1.2); /* 少し拡大 */
+  text-shadow:
+    -1px -1px 0 #ffbb00,
+     1px -1px 0 #ffbb00,
+    -1px  1px 0 #ffbb00,
+     1px  1px 0 #ffbb00;
 }
 
 .simple-calendar .current-month {
@@ -69,6 +97,7 @@ body {
   color: #ffffff;
 }
 
+/* 土日の色を変える */
 .simple-calendar .wday-0 a {
   color: #ff0000;
 }
@@ -76,6 +105,7 @@ body {
   color: #3300ff;
 }
 
+/* 次月のマスの塗りつぶし */
 .simple-calendar .next-month {
   background-color: #2e2e2e !important;
 }
@@ -86,7 +116,7 @@ body {
 }
 
 .simple-calendar .today {
-  background-color: #00ffaa !important;
+  background-color: #00ff55 !important;
 }
 
 .simple-calendar .today a {
@@ -95,6 +125,7 @@ body {
   font-weight: bold;
 }
 
+/* 前月のマスの塗りつぶし */
 .simple-calendar .prev-month {
   background-color: #2e2e2e !important;
 }
@@ -106,10 +137,20 @@ body {
 
 .simple-calendar th.wday-0 {
   color: #ff0000; /* 日曜のヘッダーを赤 */
+  text-align: center;
 }
 
 .simple-calendar th.wday-6 {
   color: #3300ff; /* 土曜のヘッダーを青 */
+  text-align: center;
+}
+
+.simple-calendar th.wday-1,
+.simple-calendar th.wday-2,
+.simple-calendar th.wday-3,
+.simple-calendar th.wday-4,
+.simple-calendar th.wday-5 {
+  text-align: center;
 }
 
 /* 月入力用カレンダーのレイアウト */
@@ -124,9 +165,43 @@ body {
   display: flex;
   flex-direction: column;
 }
+/* 年月入力フォームのレイアウト */
+.selector {
+  width: 120px;           /* ← 年月入力フォームの幅 */
+  font-size: 1.2rem;      /* ← 年月入力フォームのテキストサイズ変更 */
+  padding: 8px;
+  background-color: black;
+  color: white;
+  border: 2px solid white;
+  border-radius: 4px;
+  outline: 2px dotted #00f; /* 青色でドット */
+  outline-offset: 2px;
+}
 
+.form-label {
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
 
-/* タイトルロゴ用 */
+/* 目標やふりかえりの入力フォームサイズ */
+.auto-expand-textarea {
+  width: 90vw; /*ビューポートの横幅いっぱい*/
+  height: 25vh; /* ビューポートの高さの1/4 */
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #ffffff;
+  box-sizing: border-box;
+  /* resize: vertical; ユーザーが高さ調整可能にするなら */
+  resize: none; /* ユーザーによるフォームの大きさ変更を禁止 */
+  overflow: hidden; /* フォーム内にスクロールバーを出さない */
+  background: #000000;
+  color: #ffffff;
+  outline: 2px dotted #00f; /* 青色でドット */
+  outline-offset: 2px;
+}
+
+/* タイトルロゴのサイズなど */
 .responsive-image {
   width: 60%;
   max-width: 800px; /* 最大幅を800pxに制限 */
@@ -135,34 +210,38 @@ body {
   margin: 0 auto;
 }
 
-/* アバター用 */
+/* アバターのサイズなど */
 .avatar-image {
-max-width: 300px;
-min-width: 100px;
+  width: 100%;
+  max-width: 300px;
+  min-width: 100px;
+  height: auto; /* アスペクト比を保ちながら縮小 */
+  display: block; /* 画像の下にできる余白を消す */
 }
 
-/* 敵キャラを中央に表示するエリア */
+/* 敵キャラの位置 */
 .enemy-container {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); /* 中央揃え */
-  z-index: 10; /* ウィンドウの下にならないように調整 */
   pointer-events: none; /* クリックなどを透過させたい場合 */
 }
 
-/* 敵キャラ画像のスタイル */
+/* 敵キャラのサイズ */
 .enemy-image {
-  max-height: 200px;
-  height: auto;
-  width: auto;
+  width: 100%;
+  max-width: 200px;
+  min-width: 200px;
+  height: auto; /* アスペクト比を保ちながら縮小 */
+  display: block; /* 画像の下にできる余白を消す */
 }
 
-/* トップ画面のメニューの囲い線 */
+/* トップ画面のメニューウインド */
 .menu-box {
   border: 2px solid white; /* 白い線で囲う */
-  padding: 20px; /* 内側の余白 */
-  margin: 20px auto; /* 上下の余白と中央揃え */
+  padding: 20px 30px; /* 内側の余白 */
+  margin: 10px auto; /* 上下の余白と中央揃え */
   width: fit-content; /* コンテンツに合わせた幅 */
   color: white; /* 文字の色を白 */
   box-shadow: 0 0 10px #fff inset;
@@ -179,29 +258,37 @@ min-width: 100px;
   text-align: center;         /* テキストの中央揃え */
 }
 
-/* 入力フォームをそろえる */
+/* アカウントやログインの入力フォーム */
+/* フォームをそろえる */
 .form-group {
   display: flex;
   align-items: center;
   margin-bottom: 12px;
+  /* flex-wrap: wrap; */
+  width: 100%
 }
 
+/* ラベルの調整 */
 .form-group label {
-  width: 150px;        /* ラベルの幅を固定 */
+  width: 130px;        /* ラベルの幅を固定 */
+  text-align: right;
   font-weight: bold;
+  padding: 14px;
 }
 
+/* 入力フォームの調整 */
 .form-group input {
+  flex: 1;
   min-width: 200px; /* 最小幅を設定（初期サイズ） */
-  width: fit-content; /* 入力値に合わせて幅を変動 */
   max-width: 100%; /* 画面の幅を超えないよう制限 */
   background-color: black;       /* 内側の背景を黒に */
   color: white;                  /* 入力文字を白に */
   border: 2px solid white;       /* 外枠を白に */
   padding: 8px;
-  outline: none;                 /* フォーカス時の枠線を消す */
   font-size: 16px;
-  box-sizing: border-box;        /* パディング込みでサイズ調整 */
+  /* box-sizing: border-box;        パディング込みでサイズ調整 */
+  outline: 2px dotted #00f; /* 青色でドット */
+  outline-offset: 2px;
 }
 
 /* バトル画面左上のステータスレイアウト */
@@ -221,18 +308,9 @@ min-width: 100px;
   box-sizing: border-box;
   box-shadow: 0 0 10px #fff inset;
   font-family: "MS Gothic", "Osaka", "Yu Gothic", "Meiryo", sans-serif;
-  z-index: 1000;
+  z-index: 10;
 }
 
-/* モバイル向けレイアウト調整 */
-@media (max-width: 600px) {
-  .status-window {
-    width: 90vw;
-    font-size: 14px;
-    top: 10px;
-    left: 5vw;
-  }
-}
 
 /* 各ステータス項目 */
 .status-item {
@@ -254,7 +332,7 @@ min-width: 100px;
 
 /* ▼ 左側のコマンドウィンドウのデザイン */
 .battle-window {
-  width: 240px;               /* 横幅を240pxに固定 */
+  width: 140px;               /* 横幅を240pxに固定 */
   min-height: 160px;          /* 高さの最小値。足りなければ自動で伸びる */
   padding: 16px;              /* 中の文字との余白 */
   background-color: black;    /* 背景を黒に */
@@ -264,42 +342,28 @@ min-width: 100px;
   font-size: 16px;
   line-height: 1.5;
   box-shadow: 0 0 10px #fff inset;  /* 内側にうっすら白い影でレトロ感 */
+  z-index: 20; /* ウィンドウの下にならないように調整 */
 }
 
 /* ▼ メッセージウィンドウのデザイン（右側） */
 .battle-message-window {
   flex: 1 1 auto;             /* 画面の残りスペースを使って柔軟に広がる */
-  max-width: 600px;           /* 最大でも600pxまでしか広がらない */
-  min-width: 240px;           /* 最小でも240pxは確保（崩れ防止） */
+  max-width: 100%;           /* 最大でも600pxまでしか広がらない */
+  min-width: 180px;           /* 最小でも240pxは確保（崩れ防止） */
   min-height: 160px;          /* 高さはコマンドウィンドウと同じ */
+  z-index: 20; /* ウィンドウの下にならないように調整 */
 
   /* メッセージの位置を調整（上 右 下 左） */
   padding: 24px 16px 16px 24px;
   background-color: black;
   border: 2px solid white;
   color: white;
-
   font-family: "MS Gothic", "Osaka", "Yu Gothic", "Meiryo", sans-serif;
   font-size: 16px;
   line-height: 1.5;
-
   box-shadow: 0 0 10px #fff inset;
-
   word-wrap: break-word;      /* 長い単語は途中で折り返す */
   overflow-wrap: break-word;  /* 同じく長い単語の折り返し（保険） */
-}
-
-/* ▼ スマホなど画面が狭いときの対応（縦並びにする） */
-@media (max-width: 600px) {
-  .battle-bottom-ui {
-    flex-direction: column;   /* 横並びではなく縦に並べる */
-  }
-
-  .battle-window,
-  .battle-message-window {
-    width: 100%;              /* 幅を画面いっぱいに広げる */
-    max-width: 100%;          /* 最大幅も100%に */
-  }
 }
 
 .battle-command {
@@ -315,7 +379,15 @@ min-width: 100px;
   text-shadow: 0 0 20px #fbf380; /* 輝き風の影 */
 }
 
+/* 左に寄せる */
+.left {
+  text-align: left;
+}
 
+/* 中央にする */
+.center {
+  text-align: center;
+}
 
 /* ログアウトボタンが光るレイアウト */
 .custom-button-01{
@@ -330,6 +402,8 @@ min-width: 100px;
   border: 2px solid white; /* 枠線 */
   border-radius: 8px;
   background-color: #000; /* ボタンの塗りつぶし */
+  outline: 2px dotted #00f; /* 青色でドット */
+  outline-offset: 2px;
 }
 
 .custom-button-01:hover{

@@ -1,8 +1,10 @@
-<!-- _month_calendar.html.erb -->
+<!-- app/views/simple_calendar/_month_calendar.html.erb -->
 <div class="simple-calendar">
   <div class="calendar-heading">
-    <time datetime="<%= start_date.strftime('%Y-%m') %>" class="calendar-title"><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></time>
-
+    <time datetime="<%= start_date.strftime('%Y-%m') %>" class="calendar-title">
+      <%= l(start_date, format: :year_month) %>
+    </time>
+    
     <nav>
       <%= link_to t('simple_calendar.previous', default: 'Previous'), calendar.url_for_previous_view %>
       <%= link_to t('simple_calendar.today', default: 'Today'), calendar.url_for_today_view %>

@@ -45,17 +45,17 @@ class BattlesController < ApplicationController
     new_level = (new_total_exp / 8) + 1
 
     flash[:rpg] = [
-      "勇者のこうげき！<br>本日のかだいをやっつけた<br>勇者は1のけいけんちを得た<br>",
-      "かいしんのいちげき！<br>本日のかだいをやっつけた<br>勇者は1のけいけんちを得た<br>",
-      "勇者はメラゾーマをとなえた<br>本日のかだいをやっつけた<br>勇者は1のけいけんちを得た<br>",
-      "勇者の超究武神覇斬！！<br>本日のかだいをやっつけた<br>勇者は1のけいけんちを得た<br>",
-      "勇者のエース・オブ・ザ・ブリッツ！！<br>本日のかだいをやっつけた<br>勇者は1のけいけんちを得た<br>",
-      "勇者のつるのむち<br>本日のかだいをやっつけた<br>勇者は1のけいけんちを得た<br>"
+      "ゆうしゃのこうげき！<br>本日のかだいをやっつけた<br>ゆうしゃは1のけいけんちをえた<br>",
+      "かいしんのいちげき！<br>本日のかだいをやっつけた<br>ゆうしゃは1のけいけんちをえた<br>",
+      "ゆうしゃはメラゾーマをとなえた<br>本日のかだいをやっつけた<br>ゆうしゃは1のけいけんちをえた<br>",
+      "ゆうしゃの超究武神覇斬！！<br>本日のかだいをやっつけた<br>ゆうしゃは1のけいけんちをえた<br>",
+      "ゆうしゃのエース・オブ・ザ・ブリッツ！！<br>本日のかだいをやっつけた<br>ゆうしゃは1のけいけんちをえた<br>",
+      "ゆうしゃのつるのむち<br>本日のかだいをやっつけた<br>ゆうしゃは1のけいけんちをえた<br>"
   ].sample
     # session[:experience] = 7984 if session[:experience] > 7984
 
     if new_level > previous_level
-      flash[:rpg2] = "勇者はレベルが上がった！"
+      flash[:rpg2] = "ゆうしゃはレベルが上がった！"
       flash[:levelup] = true
     end
 
@@ -82,14 +82,14 @@ class BattlesController < ApplicationController
     previous_level = (previous_total_exp / 8) + 1
     new_level = (new_total_exp / 8) + 1
 
-    flash[:rpg] = "勇者はなまけた<br>けいけんちが1下がった<br>"
+    flash[:rpg] = "ゆうしゃはなまけた<br>けいけんちが1下がった<br>"
     if new_level < previous_level
 
     flash[:rpg3] = [
-      "勇者はレベルが下がった(笑)<br>ドンマイ！",
-      "勇者はレベルが下がった・・・<br>そんな日もあるさ！",
-      "勇者はレベルが下がった<br>次がんばろう！",
-      "勇者はレベルが下がった<br>ここからばんかいだ！"
+      "ゆうしゃはレベルが下がった<br>ドンマイ(笑)",
+      "ゆうしゃはレベルが下がった・・・<br>そんな日もあるさ",
+      "ゆうしゃはレベルが下がった<br>次がんばろう",
+      "ゆうしゃはレベルが下がった<br>ここからばんかいだ"
       ].sample
       flash[:leveldown] = true
     end
@@ -102,6 +102,9 @@ class BattlesController < ApplicationController
     recorded_on = Date.parse(recorded_on.to_s)
 
     exp_diff = session[:exp_diff] || 0 # セッションに保存された増減値を使う
+
+    Rails.logger.debug "[DEBUG] save_score: exp_diff=#{exp_diff}"
+
     return redirect_to user_path(@user) if exp_diff == 0
 
     base_exp = @user.scores.sum(:experience)
@@ -112,11 +115,17 @@ class BattlesController < ApplicationController
     score.experience += exp_diff
 
     if score.save
+
+      Rails.logger.debug "[DEBUG] save_score: save successful"
+
       # セッションをリセット（必要に応じて）
       session[:exp_diff] = 0
       session[:last_selected_date] = nil
       redirect_to user_path(@user)
     else
+
+      Rails.logger.debug "[DEBUG] save_score: save FAILED"
+
       redirect_to user_battles_path(@user, date: recorded_on)
     end
   end
