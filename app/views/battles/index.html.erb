@@ -28,22 +28,26 @@
   <!-- コマンドウインドウ -->
   <div class='battle-window'>
     <%= link_to 'がんばった', increase_user_battles_path(date: @selected_date), method: :post, class: 'battle-command' %>
-    <%= link_to 'なまけた', decrease_user_battles_path(date: @selected_date_), method: :post, class: 'battle-command' %>
+    <%= link_to 'なまけた', decrease_user_battles_path(date: @selected_date), method: :post, class: 'battle-command' %>
     <%= link_to 'セーブしてもどる', save_score_user_battles_path(date: @selected_date), method: :post, class: 'battle-command' %>
     <%= link_to 'にげる', escape_user_battles_path(@user, date: @selected_date), class: 'battle-command' %>
   </div>
 
-  <!-- メッセージウインドウ(フラッシュメッセージ) -->
-  <div class="battle-message-window">
+  <!-- メッセージウインドウ(3秒で消えるフラッシュメッセージ) -->
+  <div class="battle-message-window" data-controller="flash" data-flash-timeout-value="3000">
     <% if flash[:rpg].present? %>
-      <%= flash[:rpg].html_safe %>
+      <div data-flash-target="message">
+        <%= flash[:rpg].html_safe %>
         <% if flash[:levelup] %>
           <%= flash[:rpg2] %>
         <% elsif flash[:leveldown] %>
           <%= flash[:rpg3].html_safe %>
         <% end %>
-    <% else %>
-      <span class="default-message">本日のかだいがあらわれた</span>
+      </div>
     <% end %>
+
+    <span data-flash-target="default" class="default-message" style="<%= flash[:rpg].present? ? 'display:none;' : '' %>">
+      本日のかだいがあらわれた
+    </span>
   </div>
 </div>

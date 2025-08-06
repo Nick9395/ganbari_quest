@@ -1,32 +1,40 @@
 <!-- app/views/monthly_goals/edit.html.erb -->
-<h1>振り返りの入力</h1>
-
+<h1 class='center'><%= @month.strftime("%Y年%m月のふりかえり") %></h1>
+<h3>↓ふりかえりをする月をえらんでね↓</h3>
 <!-- 月選択フォーム -->
 <%= form_with url: request.path, method: :get, local: true do %>
   <div class="flex-form-row">
     <!-- 年セレクタ -->
     <div>
-      <%= label_tag :year, "年" %>
+      <%= label_tag :year, "年", class:'form-label' %>
       <%= select_tag :year,
             options_for_select((2020..Date.today.year+3).to_a.reverse, @month.year),
-            class: "form-control" %>
+            class: "form-control selector" %>
     </div>
-
     <!-- 月セレクタ -->
     <div>
-      <%= label_tag :month, "月" %>
+      <%= label_tag :month, "月", class:'form-label' %>
       <%= select_tag :month,
             options_for_select((1..12).map { |m| [sprintf("%02d", m), m] }, @month.month),
-            class: "form-control" %>
+            class: "form-control selector" %>
     </div>
-
     <!-- 表示ボタン -->
     <div>
-      <%= label_tag :dummy, "　" %> <!-- 高さ合わせ用の空ラベル -->
-      <%= submit_tag "表示", class: "btn btn-primary" %>
+      <%= label_tag :dummy, "　", class:'form-label' %> <!-- 高さ合わせ用の空ラベル -->
+      <%= submit_tag "ひょうじ", class: 'custom-button-01' %>
     </div>
   </div>
 <% end %>
+<br>
+<br>
+
+
+
+<!-- 1ヶ月の経験値のグラフ -->
+<h3>１ヶ月のがんばりグラフ</h3>
+<%= column_chart @experience_data, xtitle: "日にち", ytitle:"けいけんち", height:"300px", width:"95%", library: { tension:0.3 } %>
+<br>
+
 
 <!-- 入力フォーム -->
 <% if @monthly_goal.persisted? %>
@@ -34,21 +42,34 @@
     <%= hidden_field_tag :month, @month.to_s %>
 
     <div>
-      <%= f.label :review_text, "ふりかえり" %><br>
-      <%= f.text_area :review_text %>
-    </div>
+      <%= f.label :review_text, "ふりかえりを入力する" %><br>
+      <%= f.text_area :review_text, placeholder: "例:毎日しゅくだいをやった、自主学習をなまけてしまった",
+          class: "auto-expand-textarea",
+          data: {
+            controller: "auto-resize",
+            "auto-resize-target": "textarea",
+            action: "input->auto-resize#autoResize"
+      } %>
 
-    <%= f.submit "セーブしてもどる" %>
+    </div>
+    <br>
+    <%= f.submit "セーブしてもどる", class:['custom-button-01', 'center'] %>
   <% end %>
 <% else %>
   <%= form_with model: [@user, @monthly_goal], url: user_monthly_goals_path(@user, month: @month), method: :post, local: true do |f| %>
     <%= hidden_field_tag :month, @month.to_s %>
 
     <div>
-      <%= f.label :review_text, "ふりかえり" %><br>
-      <%= f.text_area :review_text %>
+      <%= f.label :review_text, "ふりかえりを入力する" %><br>
+      <%= f.text_area :review_text, placeholder: "例:毎日しゅくだいをやった、自主学習をなまけてしまった",
+          class: "auto-expand-textarea",
+          data: {
+            controller: "auto-resize",
+            "auto-resize-target": "textarea",
+            action: "input->auto-resize#autoResize"
+      } %>
     </div>
-
-    <%= f.submit "セーブしてもどる" %>
+    <br>
+    <%= f.submit "セーブしてもどる", class:['custom-button-01', 'center'] %>
   <% end %>
 <% end %>
