@@ -12,7 +12,7 @@
 
   <br>
   <h2><%= t('users.show.battle_start') %></h2>
-  <h3><%= t('users.show.select_day') %></h3>
+  <h3><%= simple_format(t('users.show.select_day')) %></h3>
 
   <!-- カレンダー -->
   <%= month_calendar do |date| %>
@@ -20,6 +20,9 @@
   <% end %>
   <br>
 
+  <h3>※１ヶ月のけいかくを立てたり、ふりかえりをしよう</h3>
+
+  <!-- 計画などのメニューウインドウ -->
   <div class='menu-box'>
     <% monthly_goal = @user.monthly_goals.find_by(month: @current_month) %>
 

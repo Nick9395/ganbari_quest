@@ -161,6 +161,10 @@ body {
   align-items: flex-end; /* ラベルとボタンの高さをそろえる */
 }
 
+.form-submit-button {
+  margin-top: 20px; /* 上との余白 */
+}
+
 .flex-form-row div {
   display: flex;
   flex-direction: column;
@@ -401,7 +405,7 @@ body {
   cursor: pointer;
   border: 2px solid white; /* 枠線 */
   border-radius: 8px;
-  background-color: #000; /* ボタンの塗りつぶし */
+  background-color: #3300ff; /* ボタンの塗りつぶし */
   outline: 2px dotted #00f; /* 青色でドット */
   outline-offset: 2px;
 }
@@ -432,7 +436,7 @@ body {
 /* アカウント作成画面等のlink_toのレイアウト */
 .link-page {
   font-size: 18px; /* 文字サイズ */
-  color: #00ffaa; /* 文字の色 */
+  color: #3300ff; /* 文字の色 */
   font-family: "MS Gothic", "Osaka", "Yu Gothic", "Meiryo", sans-serif; /* 文字の書体 */
   margin-top: 100px;   /* 上に10pxの余白 */
   margin-bottom: 100px; /* 下に10pxの余白 */

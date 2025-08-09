@@ -17,7 +17,8 @@ class SessionsController < ApplicationController
 
   # ログアウト管理
   def destroy
+    email = current_user&.email
     reset_session
-    redirect_to login_path # notice: 'logout'
+    redirect_to login_path(email: email) # notice: 'logout'
   end
 end
