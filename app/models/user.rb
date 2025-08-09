@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :battles
-  has_many :scores
+  has_many :scores, dependent: :destroy # テーブル紐づけ＆userが削除されると紐づいたscoreも削除
   has_many :monthly_goals, dependent: :destroy
 
   validates :name, presence: true

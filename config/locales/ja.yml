@@ -16,12 +16,14 @@ ja:
       title_label: "しょうごう"
       beginner_hero: "ビギナーゆうしゃ"
       battle_start: "↓がんばったカレンダー↓"
-      select_day: "※がんばった日をえらんでね"
+      select_day: |
+        ※がんばりをきろくしよう!!
+        がんばった日をえらんでね
       planning: "けいかくする"
       review: "ふりかえりをする"
       account_edit: "アカウントへんこう(工事中)"
       tutorial: "アプリのつかいかた(工事中)"
-      logout: "ぼうけんおしまい"
+      logout: "本日のぼうけんおしまい"
 
   activerecord:
     attributes:

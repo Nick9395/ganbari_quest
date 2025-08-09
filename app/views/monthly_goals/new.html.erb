@@ -1,7 +1,7 @@
 <!-- app/views/monthly_goals/new.html.erb -->
-<h1 class='center'><%= @month.strftime("%Y年%m月のけいかく") %></h1>
+<h1 class='center'><%= @month.strftime("%Y年%-m月のけいかく") %></h1>
 
-<h3>↓けいかくする月をえらんでね↓</h3>
+<h3>※まずはけいかくする月をえらんで『きりかえボタン』を押してね</h3>
 
 <!-- 月選択フォーム -->
 <%= form_with url: request.path, method: :get, local: true do %>
@@ -20,15 +20,17 @@
             options_for_select((1..12).map { |m| [sprintf("%02d", m), m] }, @month.month),
             class: "form-control selector" %>
     </div>
-    <!-- 表示ボタン -->
-    <div>
-      <%= label_tag :dummy, "　", class:'form-label' %> <!-- 高さ合わせ用の空ラベル -->
-      <%= submit_tag "ひょうじ", class: 'custom-button-01' %>
-    </div>
   </div>
+    <!-- 表示ボタン -->
+  <div class='form-submit-button'>
+    <%= submit_tag "きりかえボタン", class: 'custom-button-01' %>
+  </div>
+
 <% end %>
 <br>
 <br>
+
+<h3>※『もくひょう』と『ひょうかきじゅん』を入力したら『セーブしてもどる』ボタンを押してね</h3>
 
 <!-- 入力フォーム -->
 <% if @monthly_goal.persisted? %>
@@ -36,7 +38,7 @@
     <%= hidden_field_tag :month, @month.to_s %>
 
     <div>
-      <%= f.label :target_text, "１ヶ月のもくひょう" %><br>
+      <%= f.label :target_text, @month.strftime("%-m月のもくひょう") %><br>
       <%= f.text_area :target_text , placeholder: "例:毎日しゅくだいをやる、自主学習をがんばる",
           class: "auto-expand-textarea",
           data: {
@@ -47,7 +49,7 @@
     </div>
 
     <div>
-      <%= f.label :evaluation_text, "ひょうかきじゅん" %><br>
+      <%= f.label :evaluation_text, @month.strftime("%-m月のひょうかきじゅん") %><br>
       <%= f.text_area :evaluation_text , placeholder: "例:ドリルを1ページしたら+3ポイント、しゅくだいわすれたら-1ポイント",
           class: "auto-expand-textarea",
           data: {
@@ -64,7 +66,7 @@
     <%= hidden_field_tag :month, @month.to_s %>
 
     <div>
-      <%= f.label :target_text, "１ヶ月のもくひょう" %><br>
+      <%= f.label :target_text, @month.strftime("%-m月のもくひょう") %><br>
       <%= f.text_area :target_text , placeholder: "例:毎日しゅくだいをやる、自主学習をがんばる",
           class: "auto-expand-textarea",
           data: {
@@ -75,7 +77,7 @@
     </div>
 
     <div>
-      <%= f.label :evaluation_text, "ひょうかきじゅん" %><br>
+      <%= f.label :evaluation_text, @month.strftime("%-m月のひょうかきじゅん") %><br>
       <%= f.text_area :evaluation_text , placeholder: "例:ドリルを1ページしたら+3ポイント、しゅくだいわすれたら-1ポイント",
           class: "auto-expand-textarea",
           data: {
