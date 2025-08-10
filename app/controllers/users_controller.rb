@@ -15,10 +15,9 @@ class UsersController < ApplicationController
     if @user.save
       session[:user_id] = @user.id
       redirect_to user_path(@user)
-      flash[:success] = "勇者が召喚された"
+      flash[:success] = t("flash.login_success")
     else
-      flash.now[:danger] = "アカウント作成に失敗しました"
-      flash.now[:rpg] = "勇者の召喚に失敗した"
+      # flash.now[:errors] = @user.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end

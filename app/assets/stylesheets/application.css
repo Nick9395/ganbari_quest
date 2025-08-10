@@ -252,6 +252,14 @@ body {
   /* text-align: center; 四角の線の中のテキストを中央揃え */
 }
 
+.red-menu-box {
+  border: 2px solid #ff6600;
+  color: #ff6600;
+  background-color: #000000;
+  padding: 20px 20px 20px 20px;
+  margin: 10px auto;
+}
+
 /* ページ全体を中央にそろえるコンテナ */
 .center-container {
   display: flex;
@@ -338,7 +346,7 @@ body {
 .battle-window {
   width: 140px;               /* 横幅を240pxに固定 */
   min-height: 160px;          /* 高さの最小値。足りなければ自動で伸びる */
-  padding: 16px;              /* 中の文字との余白 */
+  padding: 14px 5px 14px 5px; /* 余白 上 右 下 左 */
   background-color: black;    /* 背景を黒に */
   border: 2px solid white;    /* 白い2pxの枠線 */
   color: white;               /* 文字色は白 */
@@ -358,7 +366,7 @@ body {
   z-index: 20; /* ウィンドウの下にならないように調整 */
 
   /* メッセージの位置を調整（上 右 下 左） */
-  padding: 24px 16px 16px 24px;
+  padding: 14px 12px 14px 12px;
   background-color: black;
   border: 2px solid white;
   color: white;
@@ -478,15 +486,34 @@ a.disabled {
 }
 
 .flash.success {
-  background-color: #000000;
-  color: #00ff00;
+  background: linear-gradient(to top, rgba(0,0,255,0) 0%, rgba(0, 162, 255, 0.8) 50%, rgba(0,0,255,0) 100%);
+  text-align: center;
+  border: 2px solid #d39d1f; /* 白い線で囲う */
+  padding: 20px 100px; /* 内側の余白 */
+  margin: 10px auto; /* 上下の余白と中央揃え */
+  width: fit-content; /* コンテンツに合わせた幅 */
+  color: white; /* 文字の色を白 */
+  text-shadow:
+      -1px -1px 0 #322c11,
+    1px -1px 0 #322c11,
+    -1px 1px 0 #322c11,
+    1px 1px 0 #322c11;
+  box-shadow: 0 0 10px #322c11 inset;
   /* border: 2px solid #00ff00; */
 }
 
 .flash.danger {
   background-color: #000000;
-  color: #ff0000;
+  color: #ff6600;
   /* border: 2px solid #ff5050; */
+}
+
+.error-messages {
+  color: #ff6600;
+  text-align: left;
+  margin-top: 10px;
+  list-style: disc;
+  padding-left: 20px;
 }
 
 /* === RPG風メッセージウィンドウ === */

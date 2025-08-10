@@ -1,4 +1,5 @@
 // app/javascript/controllers/submit_success_controller.js
+// ログイン成功時にキラキラした音を鳴らすjs
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
