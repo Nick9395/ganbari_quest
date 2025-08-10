@@ -4,15 +4,29 @@ class SessionsController < ApplicationController
 
   # ログイン管理
   def create
-    user = User.find_by(email: params[:email])
-    if user&.authenticate(params[:password])
-      session[:user_id] = user.id
-      flash[:success] = "login_success" # 成功時フラッシュの内容をトリガーに成功音が発動
-      redirect_to user_path(user) # notice: 'login'
+    email = params[:email]
+    password = params[:password]
+    if email.blank?
+      password.blank?
+      flash[:danger] = "メールアドレスとパスワードを入力してください"
+    elsif email.blank?
+      flash.now[:danger] = "メールアドレスを入力してください"
+    elsif password.blank?
+      flash.now[:danger] = "パスワードを入力して下さい"
+
     else
-      flash.now[:danger] = "not login ログインできませんでした"
-      render :new, status: :unprocessable_entity
+      user = User.find_by(email: email)
+
+      if user&.authenticate(password)
+        session[:user_id] = user.id
+        flash[:success] = t("flash.login_success") # 成功時フラッシュの内容をトリガーに成功音が発動
+        redirect_to user_path(user) and return # notice: 'login'
+      else
+        flash.now[:danger] = "メールアドレスまたはパスワードが正しくありません"
+      end
     end
+
+    render :new, status: :unprocessable_entity
   end
 
   # ログアウト管理

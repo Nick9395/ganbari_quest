@@ -1,4 +1,5 @@
 class BattlesController < ApplicationController
+  include FlashMessageHelper
   before_action :set_user
   before_action :initialize_session
 
@@ -39,20 +40,13 @@ class BattlesController < ApplicationController
     # 経験値を +1
     session[:exp_diff] += 1
     new_total_exp = base_exp + session[:exp_diff]
+    session[:experience] = 7984 if session[:experience] > 7984
 
     # レベル判定
     previous_level = (previous_total_exp / 8) + 1
     new_level = (new_total_exp / 8) + 1
 
-    flash[:rpg] = [
-      "ゆうしゃのこうげき！<br>本日のかだいをやっつけた<br>ゆうしゃは1のけいけんちをえた<br>",
-      "かいしんのいちげき！<br>本日のかだいをやっつけた<br>ゆうしゃは1のけいけんちをえた<br>",
-      "ゆうしゃはメラゾーマをとなえた<br>本日のかだいをやっつけた<br>ゆうしゃは1のけいけんちをえた<br>",
-      "ゆうしゃの超究武神覇斬！！<br>本日のかだいをやっつけた<br>ゆうしゃは1のけいけんちをえた<br>",
-      "ゆうしゃのエース・オブ・ザ・ブリッツ！！<br>本日のかだいをやっつけた<br>ゆうしゃは1のけいけんちをえた<br>",
-      "ゆうしゃのつるのむち<br>本日のかだいをやっつけた<br>ゆうしゃは1のけいけんちをえた<br>"
-  ].sample
-    # session[:experience] = 7984 if session[:experience] > 7984
+    flash[:rpg] = ex_up_message
 
     if new_level > previous_level
       flash[:rpg2] = "ゆうしゃはレベルが上がった！"
@@ -85,12 +79,7 @@ class BattlesController < ApplicationController
     flash[:rpg] = "ゆうしゃはなまけた<br>けいけんちが1下がった<br>"
     if new_level < previous_level
 
-    flash[:rpg3] = [
-      "ゆうしゃはレベルが下がった<br>ドンマイ(笑)",
-      "ゆうしゃはレベルが下がった・・・<br>そんな日もあるさ",
-      "ゆうしゃはレベルが下がった<br>次がんばろう",
-      "ゆうしゃはレベルが下がった<br>ここからばんかいだ"
-      ].sample
+    flash[:rpg3] = lv_down_message
       flash[:leveldown] = true
     end
 

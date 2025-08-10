@@ -27,3 +27,10 @@
 
   <%= link_to t('home.index.tutorial'), "#", class:'rpg-link' %>
 </div>
+<div class='center'>
+
+  <!-- フラッシュメッセージ表示(警告用) -->
+  <% flash.each do |type, message| %>
+    <div class="flash <%= type %>"><%= message %></div>
+  <% end %>
+</div>

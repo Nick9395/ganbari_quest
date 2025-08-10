@@ -22,15 +22,9 @@
 
     <%= yield %>
     <!-- 上部通知用フラッシュメッセージ -->
-    <div class="flash-top">
-      <% if flash[:success] %>
-        <div class='flash success'><%= flash[:notice] %></div>
-      <% end %>
-      <% if flash[:danger] %>
-        <div class='flash danger'><%= flash[:danger] %></div>
-      <% end %>
+   
       <!-- メッセージウインドウ用のフラッシュはbattles/index.html.erbに書いてある -->
-    </div>
+
 
   </body>
 </html>

@@ -4,8 +4,15 @@ class User < ApplicationRecord
   has_many :scores, dependent: :destroy # テーブル紐づけ＆userが削除されると紐づいたscoreも削除
   has_many :monthly_goals, dependent: :destroy
 
-  validates :name, presence: true
-  validates :email, presence: true, uniqueness: true # 空欄禁止と重複禁止を設定
+  validates :name, presence: true, length: { maximum: 20 }
+  validates :email, presence: true, uniqueness: true, length: { maximum: 50 }
+  validates :password,
+            presence: true,
+            length: { minimum: 4, maximum: 12 },
+            format: { with: /\A[a-zA-Z0-9]+\z/, message: :format },
+            if: :password_digest_changed?
+
+  validates :password_confirmation, presence: true, if: :password_digest_changed?
 
   # 以下未検証のコード
   MAX_EXPERIENCE = 7984

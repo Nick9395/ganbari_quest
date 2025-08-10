@@ -33,6 +33,22 @@ ja:
         password: "パスワード"
         password_confirmation: "パスワード(確認)"
       session:
+    errors:
+      models:
+        user:
+          attributes:
+            name:
+              blank: "を入力してください"
+            email:
+              blank: "を入力してください"
+              taken: "はすでに使われています"
+              format: ""
+            password:
+              blank: "を入力してください"
+              too_short: "は4~12文字で入力してください"
+              format: "は半角英数字のみ使用できます"
+            password_confirmation:
+              blank: "を入力してください"
 
   sessions:
     new:
@@ -51,6 +67,10 @@ ja:
     submit:
      create: "送信"
 
+  flash:
+    login_required: "ログインしてください"
+    login_success: "ゆうしゃがしょうかんされた"
+
   simple_calendar:
     previous: "＜＜"
     today: "今月"
@@ -60,5 +80,5 @@ ja:
       year_month: "%Y年%m月"
 
   placeholders:
-    email: "メールアドレスを入力してください"
-    password: "パスワードを入力してください"
+    email: "入力してね"
+    password: "入力してね"

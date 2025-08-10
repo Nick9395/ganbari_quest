@@ -1,5 +1,12 @@
 <!-- app/views/users/show.html.erb -->
+
+
+
 <div class='center-container'>
+  <!-- フラッシュメッセージ表示 -->
+  <% flash.each do |type, message| %>
+    <div class="flash <%= type %>"><%= message %></div>
+  <% end %>
   <h1><%= t('users.show.title', name: @user.name) %></h1>
 
   <%= image_tag 'avatar_sample_01.png', class: 'avatar-image' %>
