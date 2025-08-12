@@ -24,9 +24,10 @@
 </div>
 
 
-<div class="battle-bottom-ui">
+<div class="battle-bottom-ui-wrapper" data-controller="window-toggle">
+  <div class='battle-bottom-ui'>
   <!-- コマンドウインドウ -->
-  <div class='battle-window'>
+  <div class='battle-window' data-window-toggle-target="command">
     <%= link_to 'がんばった', increase_user_battles_path(date: @selected_date), method: :post, class: 'battle-command' %>
     <%= link_to 'なまけた', decrease_user_battles_path(date: @selected_date), method: :post, class: 'battle-command' %>
     <%= link_to 'セーブしてもどる', save_score_user_battles_path(date: @selected_date), method: :post, class: 'battle-command' %>
@@ -34,7 +35,11 @@
   </div>
 
   <!-- メッセージウインドウ(3秒で消えるフラッシュメッセージ) -->
-  <div class="battle-message-window" data-controller="flash" data-flash-timeout-value="3000">
+  <div class="battle-message-window"
+        data-controller="flash"
+        data-flash-timeout-value="3000"
+        data-action="flash:hide@window->window-toggle#showCommand"
+        data-window-toggle-target="message">
     <% if flash[:rpg].present? %>
       <div data-flash-target="message">
         <%= flash[:rpg].html_safe %>
