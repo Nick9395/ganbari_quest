@@ -26,7 +26,7 @@
     <%= link_to t('sessions.new.back'), root_path, class: 'rpg-link' %>
   <% end %>
   
-  <!-- 🔥 フラッシュメッセージ表示 -->
+  <!-- フラッシュメッセージ表示 -->
   <% flash.each do |type, message| %>
     <div class="flash <%= type %>"><%= message %></div>
   <% end %>

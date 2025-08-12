@@ -23,17 +23,24 @@
   <div class='form-submit-button'>
     <%= submit_tag "きりかえボタン", class: 'custom-button-01' %>
   </div>
-
 <% end %>
 <br>
-<br>
-
-
 
 <!-- 1ヶ月の経験値のグラフ -->
 <h3>１ヶ月のがんばりグラフ</h3>
 <%= column_chart @experience_data, xtitle: "日にち", ytitle:"けいけんち", height:"300px", width:"99%", library: { tension:0.3 } %>
-<br>
+
+
+<!-- 目標と評価基準を表示 -->
+<div class='rpg-box'>
+  <div class='rpg-box-title'><%= @month.strftime("%-m月のもくひょう") %></div>
+  <%= simple_format(@monthly_goal.target_text.presence || "もくひょうが入力されていません") %>
+</div>
+
+<div class='rpg-box'>
+  <div class='rpg-box-title'><%= @month.strftime("%-m月のひょうかきじゅん") %></div>
+  <%= simple_format(@monthly_goal.evaluation_text.presence || "ひょうかきじゅんが入力されていません") %>
+</div>
 
 <h3>※ふりかえり入力して『セーブしてもどる』ボタンを押してね</h3>
 

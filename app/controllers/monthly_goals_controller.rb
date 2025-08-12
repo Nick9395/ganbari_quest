@@ -44,7 +44,6 @@ class MonthlyGoalsController < ApplicationController
     @monthly_goal.month = @month
 
     if @monthly_goal.save
-      flash[:success] = "更新しました"
       redirect_to user_path(@user)
     else
       render :edit

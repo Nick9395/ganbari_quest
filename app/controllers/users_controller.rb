@@ -14,10 +14,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      redirect_to user_path(@user)
       flash[:success] = t("flash.login_success")
+      redirect_to user_path(@user)
     else
-      # flash.now[:errors] = @user.errors.full_messages
+      flash.now[:custom_errors] = collect_custom_errors(@user) # サインインエラー表示
       render :new, status: :unprocessable_entity
     end
   end
@@ -43,6 +43,31 @@ class UsersController < ApplicationController
   end
 
   private
+  # ユーザー登録失敗　メッセージ処理
+  def collect_custom_errors(user)
+    messages = []
+
+    messages << t("flash.register_errors.name_blank") if user.name.blank?
+    messages << t("flash.register_errors.email_blank") if user.email.blank?
+    messages << t("flash.register_errors.password_blank") if user.password.blank?
+    messages << t("flash.register_errors.password_confirmation_blank") if user.password_confirmation.blank?
+
+    # パスワード入力済みの内容チェック
+    unless user.password.blank?
+      if user.password.length < 4 || user.password.length > 12
+        messages << t("flash.register_errors.password_length")
+      end
+
+      unless user.password.match(/\A[a-zA-Z0-9]+\z/)
+        messages << t("flash.register_errors.password_format")
+      end
+    end
+
+    # どれにも該当しない場合
+    messages << t("flash.register_errors.default") if messages.empty?
+
+    messages
+  end
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)

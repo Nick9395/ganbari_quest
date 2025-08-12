@@ -1,10 +1,8 @@
 <!-- app/views/users/show.html.erb -->
-
-
-
 <div class='center-container'>
   <!-- フラッシュメッセージ表示 -->
   <% flash.each do |type, message| %>
+    <% next if type.to_s == "status" %><!-- flash[:status]のみ表示しない js用-->
     <div class="flash <%= type %>"><%= message %></div>
   <% end %>
   <h1><%= t('users.show.title', name: @user.name) %></h1>
@@ -35,7 +33,7 @@
 
     <%= link_to t('users.show.planning'), new_user_monthly_goal_path(@user, month: @current_month), class: 'rpg-link' %>
     <br><br>
-
+    <!-- ふりかえりページへ遷移　計画を作成してなければ計画ページ(new)へ, 計画済みならふりかえり(edit)へ遷移 -->
     <% if monthly_goal && monthly_goal.persisted? %>
       <%= link_to t('users.show.review'), edit_user_monthly_goal_path(@user, monthly_goal, month: @current_month), class: 'rpg-link' %>
     <% else %>
@@ -45,7 +43,6 @@
     <%= link_to t('users.show.account_edit'), "#", class:'rpg-link' %>
     <br><br>
     <%= link_to t('users.show.tutorial'), "#", class:'rpg-link' %>
-
   </div>
 
     <!-- ログアウトボタン -->
@@ -56,5 +53,5 @@
 
 <!-- このページへ遷移後にflashを元に効果音を判定 -->
 <div data-controller="submit-success"
-     data-submit-success-status-value="<%= flash[:success] %>">
+     data-submit-success-status-value="<%= flash[:status] %>">
 </div>
