@@ -248,7 +248,7 @@ body {
   margin: 10px auto; /* 上下の余白と中央揃え */
   width: fit-content; /* コンテンツに合わせた幅 */
   color: white; /* 文字の色を白 */
-  box-shadow: 0 0 10px #fff inset;
+  box-shadow: 0 0 10px #ffffff inset;
   /* text-align: center; 四角の線の中のテキストを中央揃え */
 }
 
@@ -258,6 +258,28 @@ body {
   background-color: #000000;
   padding: 20px 20px 20px 20px;
   margin: 10px auto;
+}
+
+/* ロープレ風タイトル付きボックス */
+.rpg-box {
+  position: relative;
+  border: 2px solid #e1e1e1; /* 枠の太さ・種類・色 */
+  color: #e1e1e1;
+  box-shadow: 0 0 10px #e1e1e1 inset;
+  margin: 1.8em 1em; /* 枠外の余白 */
+  width: 90vw; /*ビューポートの横幅いっぱい*/
+  padding: 5px 15px;
+}
+
+.rpg-box-title {
+  position: absolute;
+  padding: 0 0.5em;
+  left: 20px;
+  top: -13px; /* タイトルの位置を調整 */
+  color: #e1e1e1; /* タイトルの文字色 */
+  font-weight: bold;
+  font-size:0.9em; /* タイトルの文字サイズ */
+  background-color: #000000;
 }
 
 /* ページ全体を中央にそろえるコンテナ */
@@ -485,6 +507,7 @@ a.disabled {
   opacity: 1;
 }
 
+/* 豪華なフラッシュメッセージ　ログイン時に使用 */
 .flash.success {
   background: linear-gradient(to top, rgba(0,0,255,0) 0%, rgba(0, 162, 255, 0.8) 50%, rgba(0,0,255,0) 100%);
   text-align: center;

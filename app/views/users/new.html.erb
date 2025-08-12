@@ -41,11 +41,12 @@
     <%= link_to t('users.new.back'), root_path, class: 'rpg-link' %>
   <% end %>
 
-  <% if @user.errors.any? %>
-    <div class='red-menu-box'>
-      <ul class='error-messages'>
-        <% @user.errors.full_messages.each do |msg| %>
-          <p><%= msg %></p>
+  <!-- flash[:custom_error]を配列として受け取ってループ表示 -->
+  <% if flash[:custom_errors].present? %>
+    <div class="red-menu-box">
+      <ul class="error-messages">
+        <% flash[:custom_errors].each do |msg| %>
+          <h4><%= msg %></h4>
         <% end %>
       </ul>
     </div>

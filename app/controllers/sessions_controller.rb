@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     password = params[:password]
     if email.blank?
       password.blank?
-      flash[:danger] = "メールアドレスとパスワードを入力してください"
+      flash.now[:danger] = "メールアドレスとパスワードを入力してください"
     elsif email.blank?
       flash.now[:danger] = "メールアドレスを入力してください"
     elsif password.blank?
@@ -19,8 +19,9 @@ class SessionsController < ApplicationController
 
       if user&.authenticate(password)
         session[:user_id] = user.id
-        flash[:success] = t("flash.login_success") # 成功時フラッシュの内容をトリガーに成功音が発動
-        redirect_to user_path(user) and return # notice: 'login'
+        flash[:status] = "login_success" # 成功時フラッシュの内容をトリガーに成功音が発動
+        flash[:success] = t("flash.login_success")
+        redirect_to user_path(user) and return
       else
         flash.now[:danger] = "メールアドレスまたはパスワードが正しくありません"
       end

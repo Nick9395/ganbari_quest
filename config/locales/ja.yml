@@ -41,14 +41,25 @@ ja:
               blank: "を入力してください"
             email:
               blank: "を入力してください"
-              taken: "はすでに使われています"
-              format: ""
+              taken: "この%{attribute}はすでにつかわれています"
             password:
               blank: "を入力してください"
               too_short: "は4~12文字で入力してください"
               format: "は半角英数字のみ使用できます"
             password_confirmation:
               blank: "を入力してください"
+
+  flash:
+    login_required: "ログインしてください"
+    login_success: "ゆうしゃがしょうかんされた"
+    register_errors:
+     name_blank: "なまえを入力してください"
+     email_blank: "メールアドレスを入力してください"
+     password_blank: "パスワードを入力してください"
+     password_confirmation_blank: "パスワード(確認)を入力してください"
+     password_length: "パスワードは4~12字です"
+     password_format: "パスワードは半角英数字です"
+     default: "入力したじょうほうに誤りがあります"
 
   sessions:
     new:
@@ -66,10 +77,6 @@ ja:
   helpers:
     submit:
      create: "送信"
-
-  flash:
-    login_required: "ログインしてください"
-    login_success: "ゆうしゃがしょうかんされた"
 
   simple_calendar:
     previous: "＜＜"
