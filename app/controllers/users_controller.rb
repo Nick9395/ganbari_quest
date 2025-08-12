@@ -43,11 +43,11 @@ class UsersController < ApplicationController
   end
 
   private
-  # サインイン失敗時のエラーメッセージ処理
+  # ユーザー登録失敗　メッセージ処理
   def collect_custom_errors(user)
     messages = []
 
-    messages << t("flash.register_errors.name_blank")if user.name.blank?
+    messages << t("flash.register_errors.name_blank") if user.name.blank?
     messages << t("flash.register_errors.email_blank") if user.email.blank?
     messages << t("flash.register_errors.password_blank") if user.password.blank?
     messages << t("flash.register_errors.password_confirmation_blank") if user.password_confirmation.blank?
