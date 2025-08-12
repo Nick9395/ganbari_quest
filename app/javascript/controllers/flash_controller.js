@@ -17,6 +17,9 @@ export default class extends Controller {
       if (this.hasDefaultTarget) {
         this.defaultTarget.style.display = "block" // default-message を表示
       }
+
+      // スマホ画面バトルウインドウ切り替えイベント発火
+      window.dispatchEvent(new Event("flash:hide"))
     }, this.timeoutValue)
   }
 }

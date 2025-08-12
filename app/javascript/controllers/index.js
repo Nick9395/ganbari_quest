@@ -24,3 +24,6 @@ application.register("sound-link", SoundLinkController)
 
 import SubmitSuccessController from "./submit_success_controller"
 application.register("submit-success", SubmitSuccessController)
+
+import WindowToggleController from "./window_toggle_controller"
+application.register("window-toggle", WindowToggleController)

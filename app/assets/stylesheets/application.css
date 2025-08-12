@@ -239,6 +239,19 @@ body {
   min-width: 200px;
   height: auto; /* アスペクト比を保ちながら縮小 */
   display: block; /* 画像の下にできる余白を消す */
+  margin: 80px auto 20px auto;
+}
+
+@media (max-width: 768px) {
+  .enemy-container {
+    top: 25%; /* 中央から上寄りに変更 */
+    transform: translate(-50%, -25%); /* Y方向の位置も一致させる */
+  }
+
+  .enemy-image {
+    max-width: 60%;
+    margin: 120px auto 20px auto; /* ステータスウインドウとの距離をとる */
+  }
 }
 
 /* トップ画面のメニューウインド */
@@ -413,6 +426,51 @@ body {
   text-shadow: 0 0 20px #fbf380; /* 輝き風の影 */
 }
 
+/* スマホ専用レイアウト調整 */
+@media (max-width: 768px) {
+  .battle-bottom-ui {
+    flex-direction: column;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    gap: 0;
+    z-index: 100;
+    display: flex;
+  }
+
+  .battle-command {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .status-window {
+    top: 12px;
+    left: 12px;
+    padding: 8px 12px;
+    width: auto;
+    max-width: 90%;
+    font-size: 14px;
+  }
+
+  .battle-message-window {
+    font-size: 14px;
+  }
+
+  .battle-window,
+  .battle-message-window {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box; /* パディングやボーダーを幅に含める */
+    padding: 8px 6px;
+    border: 2px solid #ffffff;
+    height: 180px; /* 高さ固定 */
+    /* overflow: auto; 内容が多ければスクロール*/
+    flex-shrink: 0; /* 高さを縮めないようにする */
+    /* border-radius: 0; */
+  }
+}
+
 /* 左に寄せる */
 .left {
   text-align: left;
@@ -578,4 +636,9 @@ select:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px black inset !important; /* ブラウザの塗りつぶしを黒くする */
   -webkit-text-fill-color: white !important; /* 自動補完後の文字の色を白くする */
   transition: background-color 5000s ease-in-out 0s; /* 一部ブラウザの再描写バグ対策 */
+}
+
+* {
+  outline: none;
+  border: none;
 }
